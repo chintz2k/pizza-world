@@ -1,9 +1,8 @@
 package pizzaworld.gui;
 
-import javafx.geometry.Pos;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -23,27 +22,20 @@ public class MainWindow extends Stage {
     public MainWindow(Stage stage) {
         this.stage = stage;
     }
-
-    public Parent showWindow(Game game) {
-        Text topDateText = new Text("11.07.07");
+    
+    public Parent showElement(Game game) {
+        
+        Text topDateText = new Text(game.getClock().getTime());
         topDateText.setTextAlignment(TextAlignment.CENTER);
         topDateText.setFont(new Font(14.0));
+        
+        game.getClock().getTimeProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            topDateText.setText(game.getClock().getTime());
+        });
 
         Text topMoneyText = new Text("1100 €");
         topMoneyText.setTextAlignment(TextAlignment.CENTER);
         topMoneyText.setFont(new Font(14.0));
-
-        Button[] bottomButtons = {
-            new Button("Speisekarte"),
-            new Button("Personal"),
-            new Button("Einrichtung"),
-            new Button("Statistiken")
-        };
-
-        for (Button button : bottomButtons) {
-            button.setMinSize(180.0, 80.0);
-            button.setMaxSize(180.0, 80.0);
-        }
 
         HBox hbDate = new HBox(topDateText);
         hbDate.setMinSize(360.0, 80.0);
@@ -53,17 +45,8 @@ public class MainWindow extends Stage {
         hbMoney.setMinSize(360.0, 80.0);
         hbMoney.setMaxSize(360.0, 80.0);
 
-        FlowPane fpBottomButtons = new FlowPane(bottomButtons);
-        fpBottomButtons.setMinSize(360.0, 80.0);
-        fpBottomButtons.setMaxSize(360.0, 80.0);
-
-        Text newsText = new Text("Main Window HBOX");
-        HBox hbText = new HBox(newsText);
-        hbText.setAlignment(Pos.BOTTOM_LEFT);
-        hbText.setMinSize(360.0, 320.0);
-        hbText.setMaxSize(360.0, 320.0);
-        
-        newsText.setText("more text!!111\n"
+        String news;
+        news = ("more text!\n"
                 + "and mooorrrre\n"
                 + "morreadadad\n"
                 + "and mooorrrre\n"
@@ -111,12 +94,20 @@ public class MainWindow extends Stage {
                 + "and mooorrrre\n"
                 + "morreadadad\n"
                 + "");
+        game.getNewsfeed().addNews(news);
+        
+        TextArea area = new TextArea(game.getNewsfeed().getNews());
+        area.appendText("");
+        area.setEditable(false);
+        area.setMinSize(360.0, 320.0);
+        area.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            area.setScrollTop(Double.MAX_VALUE);
+        });
 
         GridPane gpRoot = new GridPane();
         gpRoot.addRow(0, hbDate);
         gpRoot.addRow(1, hbMoney);
-        gpRoot.addRow(2, hbText);
-        gpRoot.addRow(3, fpBottomButtons);
+        gpRoot.addRow(2, area);
         gpRoot.setGridLinesVisible(true);
 
         return gpRoot;
