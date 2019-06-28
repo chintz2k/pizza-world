@@ -1,7 +1,6 @@
 package pizzaworld.gui;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,39 +10,39 @@ import pizzaworld.logic.Game;
 
 /**
  *
- * @author andre
+ * @author André Heinen
  */
 public class PizzaWorld extends Application {
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage stage) {
 
-        Button[] allButtons = {
+        Button[] buttons = {
             new Button("Neues Spiel"),
             new Button("Spiel laden"),
             new Button("Spiel verlassen")
         };
 
-        VBox vbCenter = new VBox(allButtons);
-        vbCenter.setSpacing(8.0);
-        vbCenter.setAlignment(Pos.CENTER);
+        VBox vb = new VBox(buttons);
+        vb.setSpacing(8.0);
+        vb.setAlignment(Pos.CENTER);
 
-        allButtons[0].setOnAction((ActionEvent event) -> {
-            Game game = new Game();
+        buttons[0].setOnAction((ActionEvent) -> {
+            Game game = new Game(stage);
             game.getTimer().start();
-            primaryStage.getScene().setRoot(new WindowController(primaryStage, game).showWindow());
+            stage.getScene().setRoot(new MainWindow(game, stage).showElement());
         });
 
-        Scene scene = new Scene(vbCenter, 360, 640);
-        primaryStage.setTitle("Pizza World");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        Scene scene = new Scene(vb, 360, 640);
+        
+        stage.setResizable(false);
+        stage.setTitle("Pizza World");
+        stage.setScene(scene);
+        
+        stage.show();
 
     }
-
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String[] args) {
         launch(args);
     }

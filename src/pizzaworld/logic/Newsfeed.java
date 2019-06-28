@@ -1,5 +1,6 @@
 package pizzaworld.logic;
 
+import java.io.Serializable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -7,39 +8,43 @@ import javafx.beans.property.StringProperty;
  *
  * @author André Heinen
  */
-public class Newsfeed {
-    
+public class Newsfeed implements Serializable {
+
     private transient StringProperty newsProperty;
 
     public Newsfeed() {
         this.newsProperty = new SimpleStringProperty("");
     }
-    
-    public final void setNews(String news) {
+
+    public void setNews(String news) {
         newsProperty.set(news);
     }
-    
-    public final void addNews(String news) {
-        newsProperty.set(getNews() + news);
+
+    public void addNews(String news) {
+        if (getNews().equals("")) {
+            newsProperty.set(news);
+        } else {
+            newsProperty.set(getNews() + "\n" + news);
+        }
     }
-    
-    public final String getNews() {
+
+    public String getNews() {
         if (newsProperty != null) {
             return newsProperty.get();
         } else {
-            return "NewsProperty Fehler!";
+            return "String getNews() Fehler!";
         }
     }
-    
-    public final StringProperty getNewsProperty() {
+
+    public StringProperty getNewsProperty() {
         if (newsProperty == null) {
             newsProperty = new SimpleStringProperty("");
         }
         return newsProperty;
     }
-    
-    public void clearNews() {
+
+    public void reset() {
         newsProperty.set("");
     }
-    
+
 }

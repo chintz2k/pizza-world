@@ -6,59 +6,85 @@ import javafx.beans.property.StringProperty;
 
 /**
  *
- * @author André
+ * @author André Heinen
  */
 public class Clock implements Serializable {
 
-    private final int startHour = 12;
+    /**
+     * the starting hour of the day
+     */
+    public static final int STARTHOUR = 12;
 
     private int hour;
     private int minute;
+    
+    private int daytime;
 
-    private StringProperty timeProperty;
+    private transient StringProperty timeProperty;
 
     public Clock() {
-        hour = startHour;
+        hour = STARTHOUR;
         minute = 0;
-        timeProperty = new SimpleStringProperty("Clock-Konstruktor!");
+        daytime = 0;
+        timeProperty = new SimpleStringProperty(hour + ":0" + minute + " Uhr");
     }
 
-    public final void setTime(String string) {
+    public void setTime(String string) {
         timeProperty.set(string);
     }
 
-    public final String getTime() {
+    public String getTime() {
         if (timeProperty != null) {
             return timeProperty.get();
         } else {
-            return "Fehler!";
+            return "String getTime() Fehler!";
         }
     }
 
     public StringProperty getTimeProperty() {
         if (timeProperty == null) {
-            timeProperty = new SimpleStringProperty("timeProperty");
+            timeProperty = new SimpleStringProperty(hour + ":0" + minute + " Uhr");
         }
         return timeProperty;
     }
 
-    public void incMinute() {
+    public int getDaytime() {
+        return daytime;
+    }
+
+    public int getStartHour() {
+        return STARTHOUR;
+    }
+
+    public boolean incMinute() {
+        daytime++;
         if (minute == 59) {
             if (hour == 23) {
-                // TODO Tageswechsel
+                setTime("00:00 Uhr");
+                return false;
             } else {
                 hour++;
                 minute = 0;
                 setTime(hour + ":0" + minute + " Uhr");
+                return true;
             }
         } else {
             minute++;
             if (minute < 10) {
                 setTime(hour + ":0" + minute + " Uhr");
+                return true;
             } else {
                 setTime(hour + ":" + minute + " Uhr");
+                return true;
             }
         }
+    }
+    
+    public void reset() {
+        hour = STARTHOUR;
+        minute = 0;
+        daytime = 0;
+        setTime(hour + ":0" + minute + " Uhr");
     }
 
 }

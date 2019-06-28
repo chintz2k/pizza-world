@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/andre/NetBeansProjects/PizzaWorld/src/pizzaworld/staff/Manager.java</file>
-            <file>file:/Users/andre/NetBeansProjects/PizzaWorld/src/pizzaworld/logic/Clock.java</file>
-            <file>file:/Users/andre/NetBeansProjects/PizzaWorld/src/pizzaworld/gui/MainWindow.java</file>
-            <file>file:/Users/andre/NetBeansProjects/PizzaWorld/src/pizzaworld/logic/Newsfeed.java</file>
-            <file>file:/Users/andre/NetBeansProjects/PizzaWorld/src/pizzaworld/gui/PizzaWorld.java</file>
+            <file>file:/Users/andre/NetBeansProjects/PizzaWorld/src/pizzaworld/staff/Guest.java</file>
+            <file>file:/Users/andre/NetBeansProjects/PizzaWorld/src/pizzaworld/logic/GuestList.java</file>
+            <file>file:/Users/andre/NetBeansProjects/PizzaWorld/src/pizzaworld/logic/Statistics.java</file>
+            <file>file:/Users/andre/NetBeansProjects/PizzaWorld/src/pizzaworld/logic/Restaurant.java</file>
             <file>file:/Users/andre/NetBeansProjects/PizzaWorld/src/pizzaworld/logic/Timer.java</file>
-            <file>file:/Users/andre/NetBeansProjects/PizzaWorld/src/pizzaworld/gui/elements/BottomButtons.java</file>
             <file>file:/Users/andre/NetBeansProjects/PizzaWorld/src/pizzaworld/logic/Game.java</file>
-            <file>file:/Users/andre/NetBeansProjects/PizzaWorld/src/pizzaworld/gui/WindowController.java</file>
         </group>
     </open-files>
 </project-private>

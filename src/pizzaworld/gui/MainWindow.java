@@ -1,14 +1,15 @@
 package pizzaworld.gui;
 
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import pizzaworld.gui.elements.BottomPanel;
+import pizzaworld.gui.elements.TopPanel;
 import pizzaworld.logic.Game;
 
 /**
@@ -17,98 +18,84 @@ import pizzaworld.logic.Game;
  */
 public class MainWindow extends Stage {
 
-    Stage stage;
+    private final Game game;
+    private final Stage stage;
 
-    public MainWindow(Stage stage) {
+    public MainWindow(Game game, Stage stage) {
+        this.game = game;
         this.stage = stage;
     }
-    
-    public Parent showElement(Game game) {
-        
-        Text topDateText = new Text(game.getClock().getTime());
-        topDateText.setTextAlignment(TextAlignment.CENTER);
-        topDateText.setFont(new Font(14.0));
-        
-        game.getClock().getTimeProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            topDateText.setText(game.getClock().getTime());
+
+    public Parent showElement() {
+
+        TextArea news = new TextArea(game.getNewsfeed().getNews());
+        news.appendText("");
+        news.setEditable(false);
+        news.setMinSize(360.0, 440.0);
+        news.textProperty().addListener((observable) -> {
+            news.setScrollTop(Double.MAX_VALUE);
+        });
+        game.getNewsfeed().getNewsProperty().addListener((observable) -> {
+            news.setText(game.getNewsfeed().getNews());
+            news.appendText("");
         });
 
-        Text topMoneyText = new Text("1100 €");
-        topMoneyText.setTextAlignment(TextAlignment.CENTER);
-        topMoneyText.setFont(new Font(14.0));
+        Button[] buttons = {
+            new Button("Speisekarte"),
+            new Button("Personal"),
+            new Button("Einrichtung"),
+            new Button("Statistiken")
+        };
 
-        HBox hbDate = new HBox(topDateText);
-        hbDate.setMinSize(360.0, 80.0);
-        hbDate.setMaxSize(360.0, 80.0);
+        for (Button button : buttons) {
+            button.setMinSize(180.0, 80.0);
+            button.setMaxSize(180.0, 80.0);
+        }
 
-        HBox hbMoney = new HBox(topMoneyText);
-        hbMoney.setMinSize(360.0, 80.0);
-        hbMoney.setMaxSize(360.0, 80.0);
-
-        String news;
-        news = ("more text!\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "and mooorrrre\n"
-                + "morreadadad\n"
-                + "");
-        game.getNewsfeed().addNews(news);
-        
-        TextArea area = new TextArea(game.getNewsfeed().getNews());
-        area.appendText("");
-        area.setEditable(false);
-        area.setMinSize(360.0, 320.0);
-        area.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            area.setScrollTop(Double.MAX_VALUE);
-        });
+        FlowPane fp = new FlowPane(buttons);
+        fp.setMinSize(360.0, 160.0);
+        fp.setMaxSize(360.0, 160.0);
 
         GridPane gpRoot = new GridPane();
-        gpRoot.addRow(0, hbDate);
-        gpRoot.addRow(1, hbMoney);
-        gpRoot.addRow(2, area);
+        if (Game.DEBUGGING) {
+            int minsz = 440 - ((game.getPlayers().length - 1) * 40);
+            news.setMinSize(360, minsz);
+            int y = 0;
+            for (int i = 0; i < game.getPlayers().length; i++) {
+                gpRoot.addRow(y, new TopPanel(game, i).showElement());
+                y++;
+                gpRoot.addRow(y, new BottomPanel(game, i).showElement());
+                y++;
+            }
+            gpRoot.addRow(y, news);
+            y++;
+            gpRoot.addRow(y, fp);
+        } else {
+            gpRoot.addRow(0, new TopPanel(game).showElement());
+            gpRoot.addRow(1, news);
+            gpRoot.addRow(2, fp);
+            gpRoot.addRow(3, new BottomPanel(game).showElement());
+            gpRoot.setGridLinesVisible(true);
+        }
         gpRoot.setGridLinesVisible(true);
+
+        buttons[0].setOnAction((ActionEvent) -> {
+            stage.getScene().setRoot(new MenuCardWindow(game, stage).showElement());
+        });
+
+        // TODO einige Keybinds sind nur für Debuggingzwecke
+        stage.getScene().setOnKeyReleased((KeyEvent event) -> {
+            if (event.getCode() == KeyCode.T) {
+                System.out.println(game.getTimer().isRunning());
+            }
+            if (event.getCode() == KeyCode.P) {
+                if (game.getTimer().isRunning()) {
+                    game.getTimer().stop();
+                } else {
+                    game.getTimer().start();
+                }
+            }
+        });
 
         return gpRoot;
     }
