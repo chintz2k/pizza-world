@@ -28,25 +28,15 @@ public class BottomPanel extends Stage {
     
     public Parent showElement() {
         
-        Text time = new Text(game.getClock().getTime());
-        game.getClock().getTimeProperty().addListener((observable) -> {
-            time.setText(game.getClock().getTime());
-        });
-        
         Text money = new Text(String.format("%.2f", game.getPlayers()[player].getMoney()) + " €");
         game.getPlayers()[player].getMoneyProperty().addListener((observable) -> {
             money.setText(String.format("%.2f", game.getPlayers()[player].getMoney()) + " €");
         });
         
-        HBox hbleft = new HBox(time);
-        hbleft.setMinSize(180, 20);
-        hbleft.setAlignment(Pos.CENTER_LEFT);
+        HBox hb = new HBox(money);
+        hb.setMinSize(180, 20);
+        hb.setAlignment(Pos.CENTER);
         
-        HBox hbright = new HBox(money);
-        hbright.setMinSize(180, 20);
-        hbright.setAlignment(Pos.CENTER_RIGHT);
-        
-        HBox hb = new HBox(hbleft, hbright);
         hb.setMinSize(360, 20);
         hb.setMaxSize(360, 20);
         

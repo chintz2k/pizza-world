@@ -14,30 +14,16 @@ import pizzaworld.logic.Game;
 public class TopPanel extends Stage {
     
     private final Game game;
-    private final int player;
 
     public TopPanel(Game game) {
         this.game = game;
-        this.player = 0;
-    }
-    
-    public TopPanel(Game game, int player) {
-        this.game = game;
-        this.player = player;
     }
     
     public Parent showElement() {
-        
-        Text seats = new Text("Belegte Plätze: " + game.getPlayers()[player].getRestaurant().getUsedSeats() + "/" + game.getPlayers()[player].getRestaurant().getMaxSeats());
-        game.getPlayers()[player].getRestaurant().getUsedSeatsProperty().addListener((observable) -> {
-            seats.setText("Belegte Plätze: " + game.getPlayers()[player].getRestaurant().getUsedSeats() + "/" + game.getPlayers()[player].getRestaurant().getMaxSeats());
-        });
-        
-        HBox hb = new HBox(seats);
+        HBox hb = new HBox(new Text(String.valueOf("Tag " + game.getDay())));
         hb.setMinSize(360, 20);
         hb.setAlignment(Pos.CENTER);
         
         return hb;
     }
-    
 }

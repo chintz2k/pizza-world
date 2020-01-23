@@ -28,8 +28,7 @@ public class PizzaWorld extends Application {
         vb.setAlignment(Pos.CENTER);
 
         buttons[0].setOnAction((ActionEvent) -> {
-            Game game = new Game(stage);
-            game.getTimer().start();
+            Game game = new Game();
             stage.getScene().setRoot(new MainWindow(game, stage).showElement());
         });
 

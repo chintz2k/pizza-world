@@ -27,11 +27,11 @@ public class MainWindow extends Stage {
     }
 
     public Parent showElement() {
-
         TextArea news = new TextArea(game.getNewsfeed().getNews());
         news.appendText("");
         news.setEditable(false);
         news.setMinSize(360.0, 440.0);
+        news.setMaxSize(360.0, 440.0);
         news.textProperty().addListener((observable) -> {
             news.setScrollTop(Double.MAX_VALUE);
         });
@@ -43,8 +43,8 @@ public class MainWindow extends Stage {
         Button[] buttons = {
             new Button("Speisekarte"),
             new Button("Personal"),
-            new Button("Einrichtung"),
-            new Button("Statistiken")
+            new Button("Statistik"),
+            new Button("Tag beenden")
         };
 
         for (Button button : buttons) {
@@ -57,12 +57,13 @@ public class MainWindow extends Stage {
         fp.setMaxSize(360.0, 160.0);
 
         GridPane gpRoot = new GridPane();
+        
         if (Game.DEBUGGING) {
             int minsz = 440 - ((game.getPlayers().length - 1) * 40);
             news.setMinSize(360, minsz);
             int y = 0;
             for (int i = 0; i < game.getPlayers().length; i++) {
-                gpRoot.addRow(y, new TopPanel(game, i).showElement());
+                gpRoot.addRow(y, new TopPanel(game).showElement());
                 y++;
                 gpRoot.addRow(y, new BottomPanel(game, i).showElement());
                 y++;
@@ -83,17 +84,41 @@ public class MainWindow extends Stage {
             stage.getScene().setRoot(new MenuCardWindow(game, stage).showElement());
         });
 
-        // TODO einige Keybinds sind nur für Debuggingzwecke
+        buttons[1].setOnAction((ActionEvent) -> {
+            
+        });
+
+        buttons[2].setOnAction((ActionEvent) -> {
+            stage.getScene().setRoot(new StatisticsWindow(game, stage).showElement());
+        });
+
+        buttons[3].setOnAction((ActionEvent) -> {
+            stage.getScene().setRoot(new EndDayWindow(game, stage).showElement());
+        });
+
         stage.getScene().setOnKeyReleased((KeyEvent event) -> {
             if (event.getCode() == KeyCode.T) {
-                System.out.println(game.getTimer().isRunning());
+                for (int i = 0; i < game.getPlayers()[0].getStatistics().getSoldUnits().size(); i++) {
+                    for (int j = 0; j < game.getPlayers()[0].getStatistics().getSoldUnits().get(i).size(); j++) {
+                        System.out.println(i + "/" +  j + ":" + game.getPlayers()[0].getStatistics().getSoldUnits().get(i).get(j));
+                    }
+                }
             }
             if (event.getCode() == KeyCode.P) {
-                if (game.getTimer().isRunning()) {
-                    game.getTimer().stop();
+                if (game.getPlayers()[0].getStatistics().getSoldUnits().get(0).size() < game.getDay()) {
+                    System.out.println("Tag noch nicht erstellt");
                 } else {
-                    game.getTimer().start();
+                    System.out.println("Tag ist erstellt");
                 }
+            }
+            if (event.getCode() == KeyCode.S) {
+                System.out.println(game.getPlayers()[0].getStatistics().getSoldUnits().size());
+                System.out.println(game.getPlayers()[0].getStatistics().getSoldUnits().get(0).size());
+                System.out.println(game.getPlayers()[0].getStatistics().getSoldUnits().get(1).size());
+                System.out.println(game.getPlayers()[0].getStatistics().getSoldUnits().get(5).size());
+            }
+            if (event.getCode() == KeyCode.A) {
+                
             }
         });
 

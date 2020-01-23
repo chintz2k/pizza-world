@@ -25,12 +25,16 @@ public class EndDayWindow extends Stage {
 
     public Parent showElement() {
         
+        for (int i = 0; i < Game.PLAYERCOUNT; i++) {
+            game.getPlayers()[i].endDay();
+        }
+
         String dayStats = "";
 
         if (Game.DEBUGGING) {
             for (int i = 0; i < game.getPlayers().length; i++) {
                 dayStats += "Spieler: " + i + "\n"
-                        + "" + "Verkaufte Pizzen: " + game.getPlayers()[i].getStatistics().getSoldUnits(0) + "\n"
+                        + "TODO\n"
                         + "\n"
                         + "Umsatz: " + String.format("%.2f", game.getPlayers()[i].getStatistics().getSales(0)) + " €\n"
                         + "\n"
@@ -39,7 +43,7 @@ public class EndDayWindow extends Stage {
                         + "-----------------------------------------------------\n";
             }
         } else {
-            dayStats += "Verkaufte Pizzen: " + game.getPlayers()[0].getStatistics().getSoldUnits(0) + "\n"
+            dayStats += "TODO" + "\n"
                     + "\n"
                     + "Umsatz: " + String.format("%.2f", game.getPlayers()[0].getStatistics().getSales(0)) + " €\n"
                     + "\n"
@@ -60,8 +64,7 @@ public class EndDayWindow extends Stage {
         fp.setMaxSize(360.0, 80.0);
 
         button.setOnAction((ActionEvent) -> {
-            game.endDay();
-            game.getTimer().start();
+            game.incDay();
             stage.getScene().setRoot(new MainWindow(game, stage).showElement());
         });
 
