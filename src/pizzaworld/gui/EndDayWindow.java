@@ -7,6 +7,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import pizzaworld.gui.elements.BottomPanel;
+import pizzaworld.gui.elements.TopPanel;
 import pizzaworld.logic.Game;
 
 /**
@@ -34,26 +35,22 @@ public class EndDayWindow extends Stage {
         if (Game.DEBUGGING) {
             for (int i = 0; i < game.getPlayers().length; i++) {
                 dayStats += "Spieler: " + i + "\n"
-                        + "TODO\n"
+                        + "Verkaufte Pizzen:" + game.getPlayers()[i].getStatistics().getSoldUnitsYesterdayTotal(game.getDay() + 1) + "\n"
                         + "\n"
-                        + "Umsatz: " + String.format("%.2f", game.getPlayers()[i].getStatistics().getSales(0)) + " €\n"
+                        + "Umsatz: " + String.format("%.2f", game.getPlayers()[i].getStatistics().getSalesYesterdayTotal(game.getDay() + 1)) + " €\n"
                         + "\n"
-                        + "Gäste: " + game.getPlayers()[i].getStatistics().getGuests()[0][0] + "\n"
-                        + "Abgewiesene Gäste: " + game.getPlayers()[i].getStatistics().getGuests()[1][0] + "\n"
                         + "-----------------------------------------------------\n";
             }
         } else {
-            dayStats += "TODO" + "\n"
+            dayStats += "Verkaufte Pizzen:" + game.getPlayers()[0].getStatistics().getSoldUnitsYesterdayTotal(game.getDay() + 1) + "\n"
                     + "\n"
-                    + "Umsatz: " + String.format("%.2f", game.getPlayers()[0].getStatistics().getSales(0)) + " €\n"
-                    + "\n"
-                    + "Gäste: " + game.getPlayers()[0].getStatistics().getGuests()[0][0] + "\n"
-                    + "Abgewiesene Gäste: " + game.getPlayers()[0].getStatistics().getGuests()[1][0];
+                    + "Umsatz: " + String.format("%.2f", game.getPlayers()[0].getStatistics().getSalesYesterdayTotal(game.getDay() + 1)) + " €\n"
+                    + "\n";
         }
-
+        
         TextArea news = new TextArea(dayStats);
         news.setEditable(false);
-        news.setMinSize(360.0, 540.0);
+        news.setMinSize(360.0, 520.0);
 
         Button button = new Button("OK");
         button.setMinSize(360.0, 80.0);
@@ -69,9 +66,10 @@ public class EndDayWindow extends Stage {
         });
 
         GridPane gpRoot = new GridPane();
-        gpRoot.addRow(0, news);
-        gpRoot.addRow(1, fp);
-        gpRoot.addRow(2, new BottomPanel(game).showElement());
+        gpRoot.addRow(0, new TopPanel(game).showElement());
+        gpRoot.addRow(1, news);
+        gpRoot.addRow(2, fp);
+        gpRoot.addRow(3, new BottomPanel(game).showElement());
         gpRoot.setGridLinesVisible(true);
 
         return gpRoot;

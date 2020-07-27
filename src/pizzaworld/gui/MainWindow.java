@@ -78,6 +78,7 @@ public class MainWindow extends Stage {
             gpRoot.addRow(3, new BottomPanel(game).showElement());
             gpRoot.setGridLinesVisible(true);
         }
+        
         gpRoot.setGridLinesVisible(true);
 
         buttons[0].setOnAction((ActionEvent) -> {
@@ -89,7 +90,7 @@ public class MainWindow extends Stage {
         });
 
         buttons[2].setOnAction((ActionEvent) -> {
-            stage.getScene().setRoot(new StatisticsWindow(game, stage).showElement());
+            stage.getScene().setRoot(new StatisticsWindow(game, stage, 0).showElement());
         });
 
         buttons[3].setOnAction((ActionEvent) -> {
@@ -97,28 +98,29 @@ public class MainWindow extends Stage {
         });
 
         stage.getScene().setOnKeyReleased((KeyEvent event) -> {
-            if (event.getCode() == KeyCode.T) {
+            if (event.getCode() == KeyCode.U) {
                 for (int i = 0; i < game.getPlayers()[0].getStatistics().getSoldUnits().size(); i++) {
                     for (int j = 0; j < game.getPlayers()[0].getStatistics().getSoldUnits().get(i).size(); j++) {
                         System.out.println(i + "/" +  j + ":" + game.getPlayers()[0].getStatistics().getSoldUnits().get(i).get(j));
                     }
                 }
             }
-            if (event.getCode() == KeyCode.P) {
-                if (game.getPlayers()[0].getStatistics().getSoldUnits().get(0).size() < game.getDay()) {
-                    System.out.println("Tag noch nicht erstellt");
-                } else {
-                    System.out.println("Tag ist erstellt");
+            if (event.getCode() == KeyCode.S) {
+                for (int i = 0; i < game.getPlayers()[0].getStatistics().getSales().size(); i++) {
+                    for (int j = 0; j < game.getPlayers()[0].getStatistics().getSales().get(i).size(); j++) {
+                        System.out.println(i + "/" +  j + ":" + game.getPlayers()[0].getStatistics().getSales().get(i).get(j));
+                    }
                 }
             }
-            if (event.getCode() == KeyCode.S) {
-                System.out.println(game.getPlayers()[0].getStatistics().getSoldUnits().size());
-                System.out.println(game.getPlayers()[0].getStatistics().getSoldUnits().get(0).size());
-                System.out.println(game.getPlayers()[0].getStatistics().getSoldUnits().get(1).size());
-                System.out.println(game.getPlayers()[0].getStatistics().getSoldUnits().get(5).size());
-            }
             if (event.getCode() == KeyCode.A) {
-                
+                System.out.print(game.getPlayers()[0].getStatistics().getSoldUnits().get(0).get(0) + "/");
+                System.out.println(game.getPlayers()[0].getStatistics().getSales().get(0).get(0));
+                System.out.print(game.getPlayers()[0].getStatistics().getSoldUnits().get(0).get(1) + "/");
+                System.out.println(game.getPlayers()[0].getStatistics().getSales().get(0).get(1));
+                System.out.print(game.getPlayers()[0].getStatistics().getSoldUnits().get(0).get(2) + "/");
+                System.out.println(game.getPlayers()[0].getStatistics().getSales().get(0).get(2));
+                System.out.print(game.getPlayers()[0].getStatistics().getSoldUnits().get(0).get(3) + "/");
+                System.out.println(game.getPlayers()[0].getStatistics().getSales().get(0).get(3));
             }
         });
 

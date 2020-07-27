@@ -34,7 +34,7 @@ public class Game implements Serializable {
         for (int i = 1; i < players.length; i++) {
             players[i] = new PlayerAi(this);
         }
-
+        
         if (DEBUGGING) {
             int pl = -1;
             for (int i = 0; i < 16; i++) {
@@ -52,6 +52,9 @@ public class Game implements Serializable {
     
     public void incDay() {
         day += 1;
+        for (int i = 0; i < PLAYERCOUNT; i++) {
+            players[i].getStatistics().newDay();
+        }
     }
 
     public Products getProducts() {

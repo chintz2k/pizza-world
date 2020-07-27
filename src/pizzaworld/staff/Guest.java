@@ -21,11 +21,8 @@ public class Guest implements Serializable {
     public void buy(int player) {
         if (game.getProducts().getDishes().get(dishLike).isAvailable(player)) {
             game.getPlayers()[player].addMoney(game.getProducts().getDishes().get(dishLike).getPrice());
-            game.getPlayers()[player].getStatistics().incSales(dishLike, game.getProducts().getDishes().get(dishLike).getPrice());
             game.getPlayers()[player].getStatistics().incSoldUnits(game.getDay(), dishLike);
-            game.getPlayers()[player].getStatistics().incGuests(0);
-        } else {
-            game.getPlayers()[player].getStatistics().incGuests(1);
+            game.getPlayers()[player].getStatistics().incSales(game.getDay(), dishLike, game.getProducts().getDishes().get(dishLike).getPrice());
         }
     }
 }

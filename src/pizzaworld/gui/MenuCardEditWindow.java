@@ -1,12 +1,20 @@
 package pizzaworld.gui;
 
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import pizzaworld.gui.elements.BottomPanel;
 import pizzaworld.gui.elements.TopPanel;
@@ -32,6 +40,7 @@ public class MenuCardEditWindow extends Stage {
         this.max = 0;
         for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
             cb[i] = new CheckBox(game.getProducts().getDishes().get(i).getName());
+            cb[i].setMinSize(32.5, 32.5);
         }
         for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
             if (game.getProducts().getDishes().get(i).isAvailable(0)) {
@@ -44,6 +53,9 @@ public class MenuCardEditWindow extends Stage {
         }
         for (int i = 0; i < cb.length; i++) {
             cb[i].selectedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+                System.out.println(observable.getValue());
+                System.out.println(oldValue.toString());
+                System.out.println(newValue.toString());
                 if (newValue) {
                     max++;
                     if (max >= game.getProducts().getDishes().size() / 2) {
@@ -82,6 +94,14 @@ public class MenuCardEditWindow extends Stage {
             }
         }
     }
+    
+    public final int setCheckBoxSize(int rows, double height) {
+        int size = (int) (height / rows);
+        for (int i = 0; i < cb.length; i++) {
+            cb[i].setMinSize(size, size);
+        }
+        return size;
+    }
 
     public Parent showElement() {
         Button button = new Button("Zurück");
@@ -92,17 +112,29 @@ public class MenuCardEditWindow extends Stage {
         fp.setMinSize(360.0, 80.0);
         fp.setMaxSize(360.0, 80.0);
 
-        VBox vb = new VBox(cb);
-        vb.setMinSize(360, 520);
-        vb.setMaxSize(360, 520);
-
+        GridPane gp = new GridPane();
+        gp.setMinSize(360, 520);
+        gp.setMaxSize(360, 520);
+        gp.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        gp.add(new Text("Maximal 8 Pizzen"), 0, 0, 3, 1);
+        GridPane.setHalignment(gp.getChildren().get(0), HPos.CENTER);
+        for (int i = 0; i < cb.length; i++) {
+            gp.add(new Text(), 0, i + 1);
+            gp.add(cb[i], 1, i + 1);
+            gp.add(new Text(String.format("%.2f", game.getProducts().getDishes().get(i).getPrice()) + " €"), 2, i + 1);
+        }
+        gp.getRowConstraints().add(new RowConstraints(setCheckBoxSize(gp.getRowCount(), gp.getMinHeight())));
+        gp.getColumnConstraints().add(new ColumnConstraints(50.0));
+        gp.getColumnConstraints().add(new ColumnConstraints(220.0));
+        gp.getColumnConstraints().add(new ColumnConstraints(90.0));
+        
         button.setOnAction((ActionEvent) -> {
             stage.getScene().setRoot(new MenuCardWindow(game, stage).showElement());
         });
 
         GridPane gpRoot = new GridPane();
         gpRoot.addRow(0, new TopPanel(game).showElement());
-        gpRoot.addRow(1, vb);
+        gpRoot.addRow(1, gp);
         gpRoot.addRow(2, fp);
         gpRoot.addRow(3, new BottomPanel(game).showElement());
         gpRoot.setGridLinesVisible(true);
