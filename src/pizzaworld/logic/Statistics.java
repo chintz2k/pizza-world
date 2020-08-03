@@ -9,11 +9,8 @@ import java.util.ArrayList;
  */
 public class Statistics implements Serializable {
     
-    /*
-        TODO guests[] ist einzig und allein fürs debuggen
-    */
     private final ArrayList<ArrayList<Integer>> soldUnits;
-    private final ArrayList<ArrayList<Double>> sales;
+    private final ArrayList<ArrayList<Integer>> sales;
 
     public Statistics(Game game) {
         soldUnits = new ArrayList<>();
@@ -23,15 +20,15 @@ public class Statistics implements Serializable {
             soldUnits.get(i).add(0);
             soldUnits.get(i).add(0);
             sales.add(new ArrayList<>());
-            sales.get(i).add(0.0);
-            sales.get(i).add(0.0);
+            sales.get(i).add(0);
+            sales.get(i).add(0);
         }
     }
 
     public void newDay() {
         for (int i = 0; i < soldUnits.size(); i++) {
             soldUnits.get(i).add(0);
-            sales.get(i).add(0.0);
+            sales.get(i).add(0);
         }
     }
 
@@ -55,28 +52,6 @@ public class Statistics implements Serializable {
         return total;
     }
     
-    public int getSoldUnitsWeek(int dish, int day) {
-        int units = 0;
-        int startingDay;
-        if ((day - 7) < 0) {
-            startingDay = 0;
-        } else {
-            startingDay = day - 7;
-        }
-        for (int i = startingDay; i < day; i++) {
-            units += getSoldUnits().get(dish).get(i);
-        }
-        return units;
-    }
-    
-    public int getSoldUnitsWeekTotal(int day) {
-        int total = 0;
-        for (int i = 0; i < soldUnits.size(); i++) {
-            total += getSoldUnitsWeek(i, day);
-        }
-        return total;
-    }
-    
     public int getSoldUnitsAllTime(int dish, int day) {
         int units = 0;
         for (int i = 0; i < day; i++) {
@@ -93,58 +68,36 @@ public class Statistics implements Serializable {
         return total;
     }
     
-    public ArrayList<ArrayList<Double>> getSales() {
+    public ArrayList<ArrayList<Integer>> getSales() {
         return sales;
     } 
 
-    public void incSales(int day, int dish, double price) {
+    public void incSales(int day, int dish, int price) {
         sales.get(dish).set(day, (sales.get(dish).get(day) + price));
     }
     
-    public double getSalesYesterday(int dish, int day) {
+    public int getSalesYesterday(int dish, int day) {
         return sales.get(dish).get(day - 1);
     }
     
-    public double getSalesYesterdayTotal(int day) {
-        double total = 0.0;
+    public int getSalesYesterdayTotal(int day) {
+        int total = 0;
         for (int i = 0; i < sales.size(); i++) {
             total += getSalesYesterday(i, day);
         }
         return total;
     }
     
-    public double getSalesWeek(int dish, int day) {
-        double units = 0.0;
-        int startingDay;
-        if ((day - 7) < 0) {
-            startingDay = 0;
-        } else {
-            startingDay = day - 7;
-        }
-        for (int i = startingDay; i < day; i++) {
-            units += getSales().get(dish).get(i);
-        }
-        return units;
-    }
-    
-    public double getSalesWeekTotal(int day) {
-        double total = 0;
-        for (int i = 0; i < sales.size(); i++) {
-            total += getSalesWeek(i, day);
-        }
-        return total;
-    }
-    
-    public double getSalesAllTime(int dish, int day) {
-        double units = 0;
+    public int getSalesAllTime(int dish, int day) {
+        int units = 0;
         for (int i = 0; i < day; i++) {
             units += getSales().get(dish).get(i);
         }
         return units;
     }
     
-    public double getSalesAllTimeTotal(int day) {
-        double total = 0;
+    public int getSalesAllTimeTotal(int day) {
+        int total = 0;
         for (int i = 0; i < sales.size(); i++) {
             total += getSalesAllTime(i, day);
         }

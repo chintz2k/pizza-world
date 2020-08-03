@@ -35,16 +35,16 @@ public class EndDayWindow extends Stage {
         if (Game.DEBUGGING) {
             for (int i = 0; i < game.getPlayers().length; i++) {
                 dayStats += "Spieler: " + i + "\n"
-                        + "Verkaufte Pizzen:" + game.getPlayers()[i].getStatistics().getSoldUnitsYesterdayTotal(game.getDay() + 1) + "\n"
+                        + "Verkaufte Pizzen: " + game.getPlayers()[i].getStatistics().getSoldUnitsYesterdayTotal(game.getDay() + 1) + "\n"
                         + "\n"
-                        + "Umsatz: " + String.format("%.2f", game.getPlayers()[i].getStatistics().getSalesYesterdayTotal(game.getDay() + 1)) + " €\n"
+                        + "Umsatz: " + game.getPlayers()[i].getStatistics().getSalesYesterdayTotal(game.getDay() + 1) + " €\n"
                         + "\n"
                         + "-----------------------------------------------------\n";
             }
         } else {
-            dayStats += "Verkaufte Pizzen:" + game.getPlayers()[0].getStatistics().getSoldUnitsYesterdayTotal(game.getDay() + 1) + "\n"
+            dayStats += "Verkaufte Pizzen: " + game.getPlayers()[0].getStatistics().getSoldUnitsYesterdayTotal(game.getDay() + 1) + "\n"
                     + "\n"
-                    + "Umsatz: " + String.format("%.2f", game.getPlayers()[0].getStatistics().getSalesYesterdayTotal(game.getDay() + 1)) + " €\n"
+                    + "Umsatz: " + game.getPlayers()[0].getStatistics().getSalesYesterdayTotal(game.getDay() + 1) + " €\n"
                     + "\n";
         }
         

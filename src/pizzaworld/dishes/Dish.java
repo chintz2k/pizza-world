@@ -10,11 +10,11 @@ import pizzaworld.logic.Game;
 public class Dish implements Serializable {
     
     private final String name;
-    private final double price;
+    private final int price;
     
     private final boolean[] available;
     
-    public Dish(String name, double price) {
+    public Dish(String name, int price) {
         this.name = name;
         this.price = price;
         this.available = new boolean[Game.PLAYERCOUNT];
@@ -24,7 +24,7 @@ public class Dish implements Serializable {
         return name;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 

@@ -1,8 +1,8 @@
 package pizzaworld.logic;
 
 import java.io.Serializable;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  *
@@ -15,8 +15,8 @@ public class Player implements Serializable {
     private static int Id = 0;
     private final int playerId;
     
-    private double money = 1000.0;
-    private transient DoubleProperty moneyProperty;
+    private int money = 1000;
+    private transient IntegerProperty moneyProperty;
     
     private final Statistics statistics;
 
@@ -24,8 +24,16 @@ public class Player implements Serializable {
         this.game = game;
         this.playerId = Id;
         Id++;
-        moneyProperty = new SimpleDoubleProperty(money);
+        moneyProperty = new SimpleIntegerProperty(money);
         this.statistics = new Statistics(game);
+    }
+    
+    public int getPlayerId() {
+        return playerId;
+    }
+    
+    public Game getGame() {
+        return game;
     }
     
     public void endDay() {
@@ -34,22 +42,22 @@ public class Player implements Serializable {
         }
     }
     
-    public void addMoney(double amount) {
+    public void addMoney(int amount) {
         money += amount;
         moneyProperty.set(getMoney() + amount);
     }
     
-    public double getMoney() {
+    public int getMoney() {
         if (moneyProperty != null) {
             return moneyProperty.get();
         } else {
-            return -0.1;
+            return -1;
         }
     }
     
-    public DoubleProperty getMoneyProperty() {
+    public IntegerProperty getMoneyProperty() {
         if (moneyProperty == null) {
-            moneyProperty = new SimpleDoubleProperty(0.0);
+            moneyProperty = new SimpleIntegerProperty(0);
         }
         return moneyProperty;
     }

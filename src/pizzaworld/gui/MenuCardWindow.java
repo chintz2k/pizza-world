@@ -43,7 +43,7 @@ public class MenuCardWindow extends Stage {
         for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
             if (game.getProducts().getDishes().get(i).isAvailable(0)) {
                 gp.add(new Text(game.getProducts().getDishes().get(i).getName()), 0, gp.getRowCount());
-                gp.add(new Text(String.format("%.2f", game.getProducts().getDishes().get(i).getPrice()) + " €"), 1, gp.getRowCount() - 1);
+                gp.add(new Text(game.getProducts().getDishes().get(i).getPrice() + " €"), 1, gp.getRowCount() - 1);
             }
         }
         gp.getColumnConstraints().add(new ColumnConstraints(250.0));

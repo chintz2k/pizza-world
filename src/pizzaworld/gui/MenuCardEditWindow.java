@@ -53,9 +53,6 @@ public class MenuCardEditWindow extends Stage {
         }
         for (int i = 0; i < cb.length; i++) {
             cb[i].selectedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-                System.out.println(observable.getValue());
-                System.out.println(oldValue.toString());
-                System.out.println(newValue.toString());
                 if (newValue) {
                     max++;
                     if (max >= game.getProducts().getDishes().size() / 2) {
@@ -121,7 +118,7 @@ public class MenuCardEditWindow extends Stage {
         for (int i = 0; i < cb.length; i++) {
             gp.add(new Text(), 0, i + 1);
             gp.add(cb[i], 1, i + 1);
-            gp.add(new Text(String.format("%.2f", game.getProducts().getDishes().get(i).getPrice()) + " €"), 2, i + 1);
+            gp.add(new Text(game.getProducts().getDishes().get(i).getPrice() + " €"), 2, i + 1);
         }
         gp.getRowConstraints().add(new RowConstraints(setCheckBoxSize(gp.getRowCount(), gp.getMinHeight())));
         gp.getColumnConstraints().add(new ColumnConstraints(50.0));

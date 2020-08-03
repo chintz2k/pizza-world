@@ -41,7 +41,7 @@ public class MainWindow extends Stage {
         });
 
         Button[] buttons = {
-            new Button("Speisekarte"),
+            new Button("Speisenkarte"),
             new Button("Personal"),
             new Button("Statistik"),
             new Button("Tag beenden")
@@ -121,6 +121,13 @@ public class MainWindow extends Stage {
                 System.out.println(game.getPlayers()[0].getStatistics().getSales().get(0).get(2));
                 System.out.print(game.getPlayers()[0].getStatistics().getSoldUnits().get(0).get(3) + "/");
                 System.out.println(game.getPlayers()[0].getStatistics().getSales().get(0).get(3));
+            }
+            if (event.getCode() == KeyCode.B) {
+                for (int j = 0; j < 10000; j++) {
+                    for (int i = 0; i < Game.PLAYERCOUNT; i++) {
+                        game.getPlayers()[i].endDay();
+                    }
+                }
             }
         });
 

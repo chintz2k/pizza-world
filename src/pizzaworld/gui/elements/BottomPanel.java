@@ -28,9 +28,9 @@ public class BottomPanel extends Stage {
     
     public Parent showElement() {
         
-        Text money = new Text(String.format("%.2f", game.getPlayers()[player].getMoney()) + " €");
+        Text money = new Text(game.getPlayers()[player].getMoney() + " €");
         game.getPlayers()[player].getMoneyProperty().addListener((observable) -> {
-            money.setText(String.format("%.2f", game.getPlayers()[player].getMoney()) + " €");
+            money.setText(game.getPlayers()[player].getMoney() + " €");
         });
         
         HBox hb = new HBox(money);
