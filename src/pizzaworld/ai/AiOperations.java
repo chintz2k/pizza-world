@@ -23,11 +23,9 @@ public class AiOperations implements Serializable {
                 if (least == -1) {
                     pizza = i;
                     least = game.getPlayers()[player].getStatistics().getSalesYesterday(i, game.getDay() + 1);
-                    System.out.println("Anfang!  " + game.getProducts().getDishes().get(i).getName() + " wurde " + game.getPlayers()[player].getStatistics().getSalesYesterday(i, (game.getDay() + 1)) + "x verkauft.");
                 } else if (least > game.getPlayers()[player].getStatistics().getSalesYesterday(i, (game.getDay() + 1))) {
                     pizza = i;
                     least = game.getPlayers()[player].getStatistics().getSalesYesterday(i, game.getDay() + 1);
-                    System.out.println("Weniger! " + game.getProducts().getDishes().get(i).getName() + " wurde " + game.getPlayers()[player].getStatistics().getSalesYesterday(i, (game.getDay() + 1)) + "x verkauft.");
                 }
             }
         }
@@ -40,7 +38,6 @@ public class AiOperations implements Serializable {
             int random = (int) (Math.random() * game.getProducts().getDishes().size());
             if (game.getProducts().getDishes().get(random).isAvailable(player) == false) {
                 game.getProducts().getDishes().get(random).setAvailable(player, true);
-                System.out.println(game.getProducts().getDishes().get(random).getName() + " kommt rein!");
                 pizzaFound = true;
             }
         }

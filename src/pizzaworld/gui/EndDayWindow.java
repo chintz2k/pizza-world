@@ -61,8 +61,7 @@ public class EndDayWindow extends Stage {
         fp.setMaxSize(360.0, 80.0);
 
         button.setOnAction((ActionEvent) -> {
-            game.incDay();
-            stage.getScene().setRoot(new MainWindow(game, stage).showElement());
+            stage.getScene().setRoot(new PointsWindow(game, stage).showWindow());
         });
 
         GridPane gpRoot = new GridPane();

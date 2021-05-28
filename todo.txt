@@ -15,7 +15,7 @@ AI
 
 Tageswechselprozess ist sehr ungewöhnlich
 
-
+GridLinesVisible sämtlicher gpRoots sieht komisch aus! Achte auf BackgroundColors!
 
 
 

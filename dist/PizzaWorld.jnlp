@@ -8,7 +8,7 @@
     <update check="always"/>
     <resources>
         <j2se version="9.0.4+" href="http://java.sun.com/products/autodl/j2se"/>
-        <jar href="PizzaWorld.jar" size="32821" download="eager"/>
+        <jar href="PizzaWorld.jar" size="34634" download="eager"/>
         <jar href="lib\javafx-swt.jar" size="36811" download="eager"/>
         <jar href="lib\javafx.base.jar" size="749889" download="eager"/>
         <jar href="lib\javafx.controls.jar" size="2511137" download="eager"/>

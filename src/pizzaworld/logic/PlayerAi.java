@@ -31,20 +31,6 @@ public class PlayerAi extends Player implements Serializable {
     }
     
     public void changeMenu() {
-        System.out.println("Spieler " + playerId + ":");
-        for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
-            if (game.getProducts().getDishes().get(i).isAvailable(playerId)) {
-                System.out.println(game.getProducts().getDishes().get(i).getName() + "/" + game.getPlayers()[playerId].getStatistics().getSalesYesterday(i, (game.getDay() + 1)));
-            }
-        }
-        int least = aiOperations.findLeastSales(playerId);
-        System.out.println("Billigste! " + game.getProducts().getDishes().get(least).getName() + " wurde " + game.getPlayers()[playerId].getStatistics().getSalesYesterday(least, (game.getDay() + 1)) + "x verkauft.");
-        System.out.println(game.getProducts().getDishes().get(least).getName() + " fliegt raus!");
-        aiOperations.exchangeDishRnd(playerId, least);
-        for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
-            if (game.getProducts().getDishes().get(i).isAvailable(playerId)) {
-                System.out.println(game.getProducts().getDishes().get(i).getName() + "/" + game.getPlayers()[playerId].getStatistics().getSalesYesterday(i, (game.getDay() + 1)));
-            }
-        }
+        aiOperations.exchangeDishRnd(playerId, aiOperations.findLeastSales(playerId));
     }
 }

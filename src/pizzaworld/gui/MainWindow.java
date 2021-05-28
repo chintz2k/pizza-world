@@ -117,10 +117,6 @@ public class MainWindow extends Stage {
                 System.out.println(game.getPlayers()[0].getStatistics().getSales().get(0).get(0));
                 System.out.print(game.getPlayers()[0].getStatistics().getSoldUnits().get(0).get(1) + "/");
                 System.out.println(game.getPlayers()[0].getStatistics().getSales().get(0).get(1));
-                System.out.print(game.getPlayers()[0].getStatistics().getSoldUnits().get(0).get(2) + "/");
-                System.out.println(game.getPlayers()[0].getStatistics().getSales().get(0).get(2));
-                System.out.print(game.getPlayers()[0].getStatistics().getSoldUnits().get(0).get(3) + "/");
-                System.out.println(game.getPlayers()[0].getStatistics().getSales().get(0).get(3));
             }
             if (event.getCode() == KeyCode.B) {
                 for (int j = 0; j < 10000; j++) {

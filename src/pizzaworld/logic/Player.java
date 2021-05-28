@@ -15,8 +15,13 @@ public class Player implements Serializable {
     private static int Id = 0;
     private final int playerId;
     
+    private final String name;
+    
     private int money = 1000;
     private transient IntegerProperty moneyProperty;
+    
+    private int points = 0;
+    private transient IntegerProperty pointsProperty;
     
     private final Statistics statistics;
 
@@ -24,12 +29,18 @@ public class Player implements Serializable {
         this.game = game;
         this.playerId = Id;
         Id++;
+        this.name = "Player " + this.playerId;
         moneyProperty = new SimpleIntegerProperty(money);
+        pointsProperty = new SimpleIntegerProperty(points);
         this.statistics = new Statistics(game);
     }
     
     public int getPlayerId() {
         return playerId;
+    }
+    
+    public String getName() {
+        return this.name;
     }
     
     public Game getGame() {
@@ -60,6 +71,26 @@ public class Player implements Serializable {
             moneyProperty = new SimpleIntegerProperty(0);
         }
         return moneyProperty;
+    }
+
+    public void addPoints(int amount) {
+        points += amount;
+        pointsProperty.set(getPoints() + amount);
+    }
+    
+    public int getPoints() {
+        if (pointsProperty != null) {
+            return pointsProperty.get();
+        } else {
+            return -1;
+        }
+    }
+    
+    public IntegerProperty getPointsProperty() {
+        if (pointsProperty == null) {
+            pointsProperty = new SimpleIntegerProperty(0);
+        }
+        return pointsProperty;
     }
 
     public Statistics getStatistics() {

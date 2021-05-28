@@ -5,10 +5,15 @@
         <group>
             <file>file:/C:/Users/André/NetBeansProjects/PizzaWorld/src/pizzaworld/gui/EndDayWindow.java</file>
             <file>file:/C:/Users/André/NetBeansProjects/PizzaWorld/src/pizzaworld/ai/AiOperations.java</file>
+            <file>file:/C:/Users/André/NetBeansProjects/PizzaWorld/src/pizzaworld/gui/MenuCardEditWindow.java</file>
+            <file>file:/C:/Users/André/NetBeansProjects/PizzaWorld/src/pizzaworld/gui/PointsWindow.java</file>
+            <file>file:/C:/Users/André/NetBeansProjects/PizzaWorld/src/pizzaworld/gui/StatisticsWindow.java</file>
             <file>file:/C:/Users/André/NetBeansProjects/PizzaWorld/src/pizzaworld/logic/PlayerAi.java</file>
-            <file>file:/C:/Users/André/NetBeansProjects/PizzaWorld/src/pizzaworld/logic/Game.java</file>
+            <file>file:/C:/Users/André/NetBeansProjects/PizzaWorld/src/pizzaworld/gui/PizzaWorld.java</file>
+            <file>file:/C:/Users/André/NetBeansProjects/PizzaWorld/src/pizzaworld/gui/MenuCardWindow.java</file>
             <file>file:/C:/Users/André/NetBeansProjects/PizzaWorld/src/pizzaworld/staff/Guest.java</file>
             <file>file:/C:/Users/André/NetBeansProjects/PizzaWorld/src/pizzaworld/logic/Player.java</file>
+            <file>file:/C:/Users/André/NetBeansProjects/PizzaWorld/src/pizzaworld/gui/MainWindow.java</file>
         </group>
     </open-files>
 </project-private>
