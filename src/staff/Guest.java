@@ -1,13 +1,12 @@
 package staff;
 
-import java.io.Serializable;
 import logic.Game;
 
 /**
  *
  * @author André Heinen
  */
-public class Guest implements Serializable {
+public class Guest {
 
     private final Game game;
 

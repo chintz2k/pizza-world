@@ -1,13 +1,12 @@
 package logic;
 
-import java.io.Serializable;
 import dishes.Products;
 
 /**
  *
- * @author andre
+ * @author André Heinen
  */
-public class Game implements Serializable {
+public class Game {
 
     public static final boolean DEBUGGING = true;
     

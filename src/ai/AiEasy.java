@@ -1,11 +1,9 @@
 package ai;
 
-import java.io.Serializable;
-
 /**
  *
- * @author André
+ * @author André Heinen
  */
-public class AiEasy implements Serializable {
+public class AiEasy {
     
 }

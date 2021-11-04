@@ -21,7 +21,7 @@ import logic.Game;
 
 /**
  *
- * @author André
+ * @author André Heinen
  */
 public class PointsWindow extends Stage {
     

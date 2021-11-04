@@ -14,7 +14,7 @@ import logic.Game;
 
 /**
  *
- * @author andre
+ * @author André Heinen
  */
 public class MainWindow extends Stage {
 

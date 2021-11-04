@@ -1,6 +1,5 @@
 package logic;
 
-import java.io.Serializable;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -8,7 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  *
  * @author André Heinen
  */
-public class Player implements Serializable {
+public class Player {
     
     private final Game game;
     

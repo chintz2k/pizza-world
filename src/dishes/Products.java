@@ -1,13 +1,12 @@
 package dishes;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author André Heinen
  */
-public class Products implements Serializable {
+public class Products {
     
     private final ArrayList<Dish> dishes;
     

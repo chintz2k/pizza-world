@@ -1,6 +1,5 @@
 package logic;
 
-import java.io.Serializable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -8,7 +7,7 @@ import javafx.beans.property.StringProperty;
  *
  * @author André Heinen
  */
-public class Newsfeed implements Serializable {
+public class Newsfeed {
 
     private transient StringProperty newsProperty;
 

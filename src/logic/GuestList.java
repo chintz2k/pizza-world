@@ -1,6 +1,5 @@
 package logic;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import staff.Guest;
 
@@ -8,7 +7,7 @@ import staff.Guest;
  *
  * @author André Heinen
  */
-public class GuestList implements Serializable {
+public class GuestList {
     
     private final ArrayList<Guest> guests;
     

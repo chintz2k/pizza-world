@@ -1,13 +1,12 @@
 package ai;
 
-import java.io.Serializable;
 import logic.Game;
 
 /**
  *
- * @author André
+ * @author André Heinen
  */
-public class AiOperations implements Serializable {
+public class AiOperations {
     
     private final Game game;
 

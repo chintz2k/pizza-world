@@ -1,13 +1,12 @@
 package logic;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author André Heinen
  */
-public class Statistics implements Serializable {
+public class Statistics {
     
     private final ArrayList<ArrayList<Integer>> soldUnits;
     private final ArrayList<ArrayList<Integer>> sales;

@@ -1,13 +1,12 @@
 package dishes;
 
-import java.io.Serializable;
 import logic.Game;
 
 /**
  *
  * @author André Heinen
  */
-public class Dish implements Serializable {
+public class Dish {
     
     private final String name;
     private final int price;
