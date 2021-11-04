@@ -94,6 +94,7 @@ public class MainWindow extends Stage {
         });
 
         buttons[3].setOnAction((ActionEvent) -> {
+            game.endCurrentDay();
             stage.getScene().setRoot(new EndDayWindow(game, stage).showElement());
         });
 
@@ -113,15 +114,15 @@ public class MainWindow extends Stage {
                 }
             }
             if (event.getCode() == KeyCode.A) {
-                System.out.print(game.getPlayers()[0].getStatistics().getSoldUnits().get(0).get(0) + "/");
-                System.out.println(game.getPlayers()[0].getStatistics().getSales().get(0).get(0));
-                System.out.print(game.getPlayers()[0].getStatistics().getSoldUnits().get(0).get(1) + "/");
-                System.out.println(game.getPlayers()[0].getStatistics().getSales().get(0).get(1));
+                System.out.println(game.getPlayers()[0].getStatistics().getSoldUnits().size());
+                System.out.println(game.getPlayers()[0].getStatistics().getSoldUnits().get(0));
             }
             if (event.getCode() == KeyCode.B) {
-                for (int j = 0; j < 10000; j++) {
+                for (int c = 0; c < 10000; c++) {
                     for (int i = 0; i < Game.PLAYERCOUNT; i++) {
-                        game.getPlayers()[i].endDay();
+                        for (int j = 0; j < Game.GUESTCOUNT; j++) {
+                            game.getGuestList().getGuests().get(j).buy(i);
+                        }
                     }
                 }
             }

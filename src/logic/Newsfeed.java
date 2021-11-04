@@ -9,17 +9,13 @@ import javafx.beans.property.StringProperty;
  */
 public class Newsfeed {
 
-    private transient StringProperty newsProperty;
+    private StringProperty newsProperty;
 
     public Newsfeed() {
         this.newsProperty = new SimpleStringProperty("");
     }
 
     public void setNews(String news) {
-        newsProperty.set(news);
-    }
-
-    public void addNews(String news) {
         if (getNews().equals("")) {
             newsProperty.set(news);
         } else {
@@ -31,7 +27,7 @@ public class Newsfeed {
         if (newsProperty != null) {
             return newsProperty.get();
         } else {
-            return "String getNews() Fehler!";
+            return "public String getNews() in class Newsfeed Error";
         }
     }
 
@@ -42,8 +38,7 @@ public class Newsfeed {
         return newsProperty;
     }
 
-    public void reset() {
+    public void clearNews() {
         newsProperty.set("");
     }
-
 }

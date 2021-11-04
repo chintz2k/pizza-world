@@ -69,7 +69,7 @@ public class PointsWindow extends Stage {
         }
         
         button.setOnAction((ActionEvent) -> {
-            game.incDay();
+            game.startNewDay();
             stage.getScene().setRoot(new MainWindow(game, stage).showElement());
         });
         
@@ -83,5 +83,4 @@ public class PointsWindow extends Stage {
         
         return gpRoot;
     }
-    
 }

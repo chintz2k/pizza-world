@@ -52,20 +52,20 @@ public class StatisticsWindow extends Stage {
         if (option == 0) {
             for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
                 gp.add(new Text(game.getProducts().getDishes().get(i).getName()), 0, i + 2);
-                gp.add(new Text(String.valueOf(game.getPlayers()[0].getStatistics().getSoldUnitsYesterday(i, game.getDay()))), 1, i + 2);
+                gp.add(new Text(String.valueOf(game.getPlayers()[0].getStatistics().getSoldUnits(i, game.getDay() - 1))), 1, i + 2);
                 gp.add(new Text(String.valueOf(game.getPlayers()[0].getStatistics().getSoldUnitsAllTime(i, game.getDay()))), 2, i + 2);
             }
             gp.add(new Text("Gesamt"), 0, gp.getRowCount());
-            gp.add(new Text(String.valueOf(game.getPlayers()[0].getStatistics().getSoldUnitsYesterdayTotal(game.getDay()))), 1, gp.getRowCount() - 1);
+            gp.add(new Text(String.valueOf(game.getPlayers()[0].getStatistics().getSoldUnitsTotal(game.getDay() - 1))), 1, gp.getRowCount() - 1);
             gp.add(new Text(String.valueOf(game.getPlayers()[0].getStatistics().getSoldUnitsAllTimeTotal(game.getDay()))), 2, gp.getRowCount() - 1);
         } else if (option == 1) {
             for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
                 gp.add(new Text(game.getProducts().getDishes().get(i).getName()), 0, i + 2);
-                gp.add(new Text(game.getPlayers()[0].getStatistics().getSalesYesterday(i, game.getDay()) + " €"), 1, i + 2);
+                gp.add(new Text(game.getPlayers()[0].getStatistics().getSales(i, game.getDay() - 1) + " €"), 1, i + 2);
                 gp.add(new Text(game.getPlayers()[0].getStatistics().getSalesAllTime(i, game.getDay()) + " €"), 2, i + 2);
             }
             gp.add(new Text("Gesamt"), 0, gp.getRowCount());
-            gp.add(new Text(game.getPlayers()[0].getStatistics().getSalesYesterdayTotal(game.getDay()) + " €"), 1, gp.getRowCount() - 1);
+            gp.add(new Text(game.getPlayers()[0].getStatistics().getSalesTotal(game.getDay() - 1) + " €"), 1, gp.getRowCount() - 1);
             gp.add(new Text(game.getPlayers()[0].getStatistics().getSalesAllTimeTotal(game.getDay()) + " €"), 2, gp.getRowCount() - 1);
         }
         

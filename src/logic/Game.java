@@ -9,6 +9,9 @@ import dishes.Products;
 public class Game {
 
     public static final boolean DEBUGGING = true;
+
+    public static final int GUESTCOUNT = 1000;
+    public static final int PLAYERCOUNT = 4;
     
     private int day = 1;
 
@@ -16,16 +19,12 @@ public class Game {
     private final Newsfeed newsfeed;
     private final GuestList guestlist;
     
-    public static final int GUESTCOUNT = 1000;
-    public static final int PLAYERCOUNT = 4;
-    
     private final Player[] players;
 
     public Game() {
 
         products = new Products();
         newsfeed = new Newsfeed();
-        
         guestlist = new GuestList(this);
 
         players = new Player[PLAYERCOUNT];
@@ -45,23 +44,27 @@ public class Game {
         }
     }
     
+    public void endCurrentDay() {
+        for (int i = 0; i < Game.PLAYERCOUNT; i++) {
+            for (int j = 0; j < Game.GUESTCOUNT; j++) {
+                this.guestlist.getGuests().get(j).buy(i);
+            }
+        }
+    }
+
+    public void startNewDay() {
+        day += 1;
+        for (int i = 0; i < PLAYERCOUNT; i++) {
+            players[i].getStatistics().addColumn();
+        }
+    }
+
     public int getDay() {
         return day;
     }
     
-    public void incDay() {
-        day += 1;
-        for (int i = 0; i < PLAYERCOUNT; i++) {
-            players[i].getStatistics().newDay();
-        }
-    }
-
     public Products getProducts() {
         return products;
-    }
-
-    public Player[] getPlayers() {
-        return players;
     }
 
     public Newsfeed getNewsfeed() {
@@ -70,5 +73,9 @@ public class Game {
     
     public GuestList getGuestList() {
         return guestlist;
+    }
+    
+    public Player[] getPlayers() {
+        return players;
     }
 }

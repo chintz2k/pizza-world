@@ -21,10 +21,10 @@ public class AiOperations {
             if (game.getProducts().getDishes().get(i).isAvailable(player)) {
                 if (least == -1) {
                     pizza = i;
-                    least = game.getPlayers()[player].getStatistics().getSalesYesterday(i, game.getDay() + 1);
-                } else if (least > game.getPlayers()[player].getStatistics().getSalesYesterday(i, (game.getDay() + 1))) {
+                    least = game.getPlayers()[player].getStatistics().getSales(i, game.getDay());
+                } else if (least > game.getPlayers()[player].getStatistics().getSales(i, (game.getDay()))) {
                     pizza = i;
-                    least = game.getPlayers()[player].getStatistics().getSalesYesterday(i, game.getDay() + 1);
+                    least = game.getPlayers()[player].getStatistics().getSales(i, game.getDay());
                 }
             }
         }

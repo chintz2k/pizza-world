@@ -34,5 +34,4 @@ public class Dish {
     public void setAvailable(int player, boolean available) {
         this.available[player] = available;
     }
-    
 }

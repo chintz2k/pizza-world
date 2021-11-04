@@ -42,5 +42,4 @@ public class BottomPanel extends Stage {
         
         return hb;
     }
-    
 }

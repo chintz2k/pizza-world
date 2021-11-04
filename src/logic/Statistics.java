@@ -24,29 +24,33 @@ public class Statistics {
         }
     }
 
-    public void newDay() {
+    public void addColumn() {
         for (int i = 0; i < soldUnits.size(); i++) {
             soldUnits.get(i).add(0);
             sales.get(i).add(0);
         }
     }
 
+    public void addSoldUnits(int dish, int day, int amount) {
+        soldUnits.get(dish).set(day, (soldUnits.get(dish).get(day) + amount));
+    }
+    
+    public void addSales(int dish, int day, int amount) {
+        sales.get(dish).set(day, (sales.get(dish).get(day) + amount));
+    }
+    
     public ArrayList<ArrayList<Integer>> getSoldUnits() {
         return soldUnits;
     }
 
-    public void incSoldUnits(int day, int dish) {
-        soldUnits.get(dish).set(day, (soldUnits.get(dish).get(day) + 1));
+    public int getSoldUnits(int dish, int day) {
+        return soldUnits.get(dish).get(day);
     }
     
-    public int getSoldUnitsYesterday(int dish, int day) {
-        return soldUnits.get(dish).get(day - 1);
-    }
-    
-    public int getSoldUnitsYesterdayTotal(int day) {
+    public int getSoldUnitsTotal(int day) {
         int total = 0;
         for (int i = 0; i < soldUnits.size(); i++) {
-            total += getSoldUnitsYesterday(i, day);
+            total += getSoldUnits(i, day);
         }
         return total;
     }
@@ -71,18 +75,14 @@ public class Statistics {
         return sales;
     } 
 
-    public void incSales(int day, int dish, int price) {
-        sales.get(dish).set(day, (sales.get(dish).get(day) + price));
+    public int getSales(int dish, int day) {
+        return sales.get(dish).get(day);
     }
     
-    public int getSalesYesterday(int dish, int day) {
-        return sales.get(dish).get(day - 1);
-    }
-    
-    public int getSalesYesterdayTotal(int day) {
+    public int getSalesTotal(int day) {
         int total = 0;
         for (int i = 0; i < sales.size(); i++) {
-            total += getSalesYesterday(i, day);
+            total += getSales(i, day);
         }
         return total;
     }

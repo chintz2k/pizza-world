@@ -35,5 +35,4 @@ public class Products {
     public ArrayList<Dish> getDishes() {
         return dishes;
     }
-
 }
