@@ -19,19 +19,19 @@ public class Dish {
         this.available = new boolean[Game.PLAYERCOUNT];
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
     public boolean isAvailable(int player) {
         return available[player];
     }
 
     public void setAvailable(int player, boolean available) {
         this.available[player] = available;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }
