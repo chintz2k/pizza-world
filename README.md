@@ -1,18 +1,23 @@
-## Getting Started
+Speisenkarte
+- bei leerer Speisenkarte, veränderter Screen
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Tageswechsel
+- Warnung bei leerer Speisenkarte
+- Anzeige der verkauften Speisen
 
-## Folder Structure
+Newsfeed
+- hat bisher keine Funktion!
 
-The workspace contains two folders by default, where:
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+AI
+- erstmal alles in die PlayerAi Klasse, später nach AiEasy etc verschieben!
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+Tageswechselprozess ist sehr ungewöhnlich
 
-## Dependency Management
+GridLinesVisible sämtlicher gpRoots sieht komisch aus! Achte auf BackgroundColors!
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+README.md als todo nutzen?
+
+DEBUGGING
+- final alle DEBUGGING maßnahmen entfernen
