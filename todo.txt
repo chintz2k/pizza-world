@@ -17,7 +17,7 @@ Tageswechselprozess ist sehr ungewöhnlich
 
 GridLinesVisible sämtlicher gpRoots sieht komisch aus! Achte auf BackgroundColors!
 
-
+README.md als todo nutzen?
 
 DEBUGGING
 - final alle DEBUGGING maßnahmen entfernen
