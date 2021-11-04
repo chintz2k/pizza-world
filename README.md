@@ -1,7 +1,7 @@
-Speisenkarte
+SPEISENKARTE
 - bei leerer Speisenkarte, veränderter Screen
 
-Tageswechsel
+TAGESWECHSEL
 - Warnung bei leerer Speisenkarte
 - Anzeige der verkauften Speisen
 - allgemeiner Prozess ist ungewöhnlich/nicht optimal
@@ -19,6 +19,9 @@ GUI
 
 Guest
 - Punkte sind im Moment nach getPrice(), nicht gerade sinnvoll placeholder
+
+PointsWindow
+- sollte nicht zwangsweise den Tag erhöhen, >könnte< auch so genutzt werden
 
 DEBUGGING
 - final alle DEBUGGING maßnahmen entfernen
