@@ -8,17 +8,13 @@ import ai.AiOperations;
  */
 public class PlayerAi extends Player {
     
-    private final int playerId;
-
     private final AiOperations aiOperations;
     
-    public PlayerAi(Game game) {
-        super(game);
-        this.playerId = super.getPlayerId();
-        this.aiOperations = new AiOperations(game);
+    public PlayerAi() {
+        this.aiOperations = new AiOperations();
     }
     
-    public void dailyOperations() {
-        aiOperations.exchangeDishRnd(playerId, aiOperations.findLeastSales(playerId));
+    public void dailyAiOperations(int day) {
+        aiOperations.exchangeRandomDish(this, aiOperations.getWorstSellingDish(this, day));
     }
 }

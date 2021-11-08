@@ -14,23 +14,23 @@ import logic.Game;
 public class BottomPanel extends Stage {
     
     private final Game game;
-    private final int player;
-
+    private final int player;// TODO delete for release
+    
     public BottomPanel(Game game) {
         this.game = game;
         this.player = 0;
     }
-    
+
     public BottomPanel(Game game, int player) {
         this.game = game;
         this.player = player;
     }
-    
+
     public Parent showElement() {
         
-        Text money = new Text(game.getPlayers()[player].getMoney() + " €");
-        game.getPlayers()[player].getMoneyProperty().addListener((observable) -> {
-            money.setText(game.getPlayers()[player].getMoney() + " €");
+        Text money = new Text(game.getPlayer(player).getMoney() + " €");
+        game.getPlayer(player).getMoneyProperty().addListener((observable) -> {
+            money.setText(game.getPlayer(player).getMoney() + " €");
         });
         
         HBox hb = new HBox(money);

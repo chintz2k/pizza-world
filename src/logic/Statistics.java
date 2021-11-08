@@ -11,10 +11,10 @@ public class Statistics {
     private final ArrayList<ArrayList<Integer>> soldUnits;
     private final ArrayList<ArrayList<Integer>> sales;
 
-    public Statistics(Game game) {
+    public Statistics() {
         soldUnits = new ArrayList<>();
         sales = new ArrayList<>();
-        for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
+        for (int i = 0; i < Game.NUMBER_OF_DISHES; i++) {
             soldUnits.add(new ArrayList<>());
             soldUnits.get(i).add(0);
             soldUnits.get(i).add(0);

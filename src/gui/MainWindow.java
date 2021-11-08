@@ -18,12 +18,13 @@ import logic.Game;
  */
 public class MainWindow extends Stage {
 
-    private final Game game;
     private final Stage stage;
 
-    public MainWindow(Game game, Stage stage) {
-        this.game = game;
+    private final Game game;
+
+    public MainWindow(Stage stage, Game game) {
         this.stage = stage;
+        this.game = game;
     }
 
     public Parent showElement() {
@@ -59,10 +60,10 @@ public class MainWindow extends Stage {
         GridPane gpRoot = new GridPane();
         
         if (Game.DEBUGGING) {
-            int minsz = 440 - ((game.getPlayers().length - 1) * 40);
+            int minsz = 440 - ((Game.NUMBER_OF_PLAYERS - 1) * 40);
             news.setMinSize(360, minsz);
             int y = 0;
-            for (int i = 0; i < game.getPlayers().length; i++) {
+            for (int i = 0; i < Game.NUMBER_OF_PLAYERS; i++) {
                 gpRoot.addRow(y, new TopPanel(game).showElement());
                 y++;
                 gpRoot.addRow(y, new BottomPanel(game, i).showElement());
@@ -82,7 +83,7 @@ public class MainWindow extends Stage {
         gpRoot.setGridLinesVisible(true);
 
         buttons[0].setOnAction((ActionEvent) -> {
-            stage.getScene().setRoot(new MenuCardWindow(game, stage).showElement());
+            stage.getScene().setRoot(new MenuCardWindow(stage, game).showElement());
         });
 
         buttons[1].setOnAction((ActionEvent) -> {
@@ -90,41 +91,47 @@ public class MainWindow extends Stage {
         });
 
         buttons[2].setOnAction((ActionEvent) -> {
-            stage.getScene().setRoot(new StatisticsWindow(game, stage, 0).showElement());
+            stage.getScene().setRoot(new StatisticsWindow(stage, game, 0).showElement());
         });
 
         buttons[3].setOnAction((ActionEvent) -> {
             game.endCurrentDay();
-            stage.getScene().setRoot(new EndDayWindow(game, stage).showElement());
+            stage.getScene().setRoot(new EndDayWindow(stage, game).showElement());
         });
 
         stage.getScene().setOnKeyReleased((KeyEvent event) -> {
             if (event.getCode() == KeyCode.U) {
-                for (int i = 0; i < game.getPlayers()[0].getStatistics().getSoldUnits().size(); i++) {
-                    for (int j = 0; j < game.getPlayers()[0].getStatistics().getSoldUnits().get(i).size(); j++) {
-                        System.out.println(i + "/" +  j + ":" + game.getPlayers()[0].getStatistics().getSoldUnits().get(i).get(j));
+                for (int i = 0; i < game.getPlayer(0).getStatistics().getSoldUnits().size(); i++) {
+                    for (int j = 0; j < game.getPlayer(0).getStatistics().getSoldUnits().get(i).size(); j++) {
+                        System.out.println(i + "/" +  j + ":" + game.getPlayer(0).getStatistics().getSoldUnits().get(i).get(j));
                     }
                 }
             }
             if (event.getCode() == KeyCode.S) {
-                for (int i = 0; i < game.getPlayers()[0].getStatistics().getSales().size(); i++) {
-                    for (int j = 0; j < game.getPlayers()[0].getStatistics().getSales().get(i).size(); j++) {
-                        System.out.println(i + "/" +  j + ":" + game.getPlayers()[0].getStatistics().getSales().get(i).get(j));
+                for (int i = 0; i < game.getPlayer(0).getStatistics().getSales().size(); i++) {
+                    for (int j = 0; j < game.getPlayer(0).getStatistics().getSales().get(i).size(); j++) {
+                        System.out.println(i + "/" +  j + ":" + game.getPlayer(0).getStatistics().getSales().get(i).get(j));
                     }
                 }
             }
             if (event.getCode() == KeyCode.A) {
-                System.out.println(game.getPlayers()[0].getStatistics().getSoldUnits().size());
-                System.out.println(game.getPlayers()[0].getStatistics().getSoldUnits().get(0));
+                System.out.println(game.getPlayer(0).getStatistics().getSoldUnits().size());
+                System.out.println(game.getPlayer(0).getStatistics().getSoldUnits().get(0));
             }
             if (event.getCode() == KeyCode.B) {
                 for (int c = 0; c < 10000; c++) {
-                    for (int i = 0; i < Game.PLAYERCOUNT; i++) {
-                        for (int j = 0; j < Game.GUESTCOUNT; j++) {
-                            game.getGuestList().getGuests().get(j).buy(i);
+                    for (int i = 0; i < Game.NUMBER_OF_PLAYERS; i++) {
+                        for (int j = 0; j < Game.NUMBER_OF_GUESTS; j++) {
+                            
                         }
                     }
                 }
+            }
+            if (event.getCode() == KeyCode.D) {
+                game.getPlayer(0).addMoney(1);
+            }
+            if (event.getCode() == KeyCode.Z) {
+                
             }
         });
 

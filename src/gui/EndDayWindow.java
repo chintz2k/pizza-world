@@ -16,12 +16,13 @@ import logic.Game;
  */
 public class EndDayWindow extends Stage {
 
-    private final Game game;
     private final Stage stage;
+    
+    private final Game game;
 
-    public EndDayWindow(Game game, Stage stage) {
-        this.game = game;
+    public EndDayWindow(Stage stage, Game game) {
         this.stage = stage;
+        this.game = game;
     }
 
     public Parent showElement() {
@@ -29,18 +30,18 @@ public class EndDayWindow extends Stage {
         String dayStats = "";
 
         if (Game.DEBUGGING) {
-            for (int i = 0; i < game.getPlayers().length; i++) {
+            for (int i = 0; i < Game.NUMBER_OF_PLAYERS; i++) {
                 dayStats += "Spieler: " + i + "\n"
-                        + "Verkaufte Pizzen: " + game.getPlayers()[i].getStatistics().getSoldUnitsTotal(game.getDay()) + "\n"
+                        + "Verkaufte Pizzen: " + game.getPlayer(i).getStatistics().getSoldUnitsTotal(game.getDay()) + "\n"
                         + "\n"
-                        + "Umsatz: " + game.getPlayers()[i].getStatistics().getSalesTotal(game.getDay()) + " €\n"
+                        + "Umsatz: " + game.getPlayer(i).getStatistics().getSalesTotal(game.getDay()) + " €\n"
                         + "\n"
                         + "-----------------------------------------------------\n";
             }
         } else {
-            dayStats += "Verkaufte Pizzen: " + game.getPlayers()[0].getStatistics().getSoldUnitsTotal(game.getDay()) + "\n"
+            dayStats += "Verkaufte Pizzen: " + game.getPlayer(0).getStatistics().getSoldUnitsTotal(game.getDay()) + "\n"
                     + "\n"
-                    + "Umsatz: " + game.getPlayers()[0].getStatistics().getSalesTotal(game.getDay()) + " €\n"
+                    + "Umsatz: " + game.getPlayer(0).getStatistics().getSalesTotal(game.getDay()) + " €\n"
                     + "\n";
         }
         
@@ -57,7 +58,7 @@ public class EndDayWindow extends Stage {
         fp.setMaxSize(360.0, 80.0);
 
         button.setOnAction((ActionEvent) -> {
-            stage.getScene().setRoot(new PointsWindow(game, stage).showWindow());
+            stage.getScene().setRoot(new PointsWindow(stage, game).showWindow());
         });
 
         GridPane gpRoot = new GridPane();

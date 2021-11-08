@@ -6,21 +6,17 @@ package logic;
  */
 public class Guest {
 
-    private final Game game;
-
-    private final int dishLike;
+    private final int like;
     
-    public Guest(Game game) {
-        this.game = game;
-        dishLike = (int) (Math.random() * game.getProducts().getDishes().size());
+    public Guest() {
+        like = (int) (Math.random() * Game.NUMBER_OF_DISHES);
+    }
+
+    public int getLike() {
+        return like;
     }
     
-    public void buy(int player) {
-        if (game.getProducts().getDishes().get(dishLike).isAvailable(player)) {
-            game.getPlayers()[player].addMoney(game.getProducts().getDishes().get(dishLike).getPrice());
-            game.getPlayers()[player].addPoints(game.getProducts().getDishes().get(dishLike).getPrice());
-            game.getPlayers()[player].getStatistics().addSoldUnits(dishLike, game.getDay(), 1);
-            game.getPlayers()[player].getStatistics().addSales(dishLike, game.getDay(), game.getProducts().getDishes().get(dishLike).getPrice());
-        }
+    public boolean isLikeAvailable(Player player) {
+        return player.getMenuCard().getDish(like).isAvailable();
     }
 }

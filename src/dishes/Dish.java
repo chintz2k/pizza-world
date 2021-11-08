@@ -1,7 +1,5 @@
 package dishes;
 
-import logic.Game;
-
 /**
  *
  * @author André Heinen
@@ -10,21 +8,14 @@ public class Dish {
     
     private final String name;
     private final int price;
-    
-    private final boolean[] available;
+
+    private boolean availability;
     
     public Dish(String name, int price) {
         this.name = name;
         this.price = price;
-        this.available = new boolean[Game.PLAYERCOUNT];
-    }
 
-    public boolean isAvailable(int player) {
-        return available[player];
-    }
-
-    public void setAvailable(int player, boolean available) {
-        this.available[player] = available;
+        this.availability = false;
     }
 
     public String getName() {
@@ -33,5 +24,13 @@ public class Dish {
 
     public int getPrice() {
         return price;
+    }
+    
+    public boolean isAvailable() {
+        return availability;
+    }
+
+    public void setAvailable(boolean available) {
+        this.availability = available;
     }
 }

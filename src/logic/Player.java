@@ -1,5 +1,6 @@
 package logic;
 
+import dishes.MenuCard;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -17,15 +18,17 @@ public class Player {
     private IntegerProperty moneyProperty;
     private IntegerProperty pointsProperty;
     
+    private final MenuCard menuCard;
     private final Statistics statistics;
 
-    public Player(Game game) {
+    public Player() {
         this.playerId = ID;
         ID++;
         this.name = "Player " + this.playerId;
         moneyProperty = new SimpleIntegerProperty(1000);
         pointsProperty = new SimpleIntegerProperty(0);
-        this.statistics = new Statistics(game);
+        this.menuCard = new MenuCard();
+        this.statistics = new Statistics();
     }
     
     public void addMoney(int amount) {
@@ -66,14 +69,14 @@ public class Player {
         return pointsProperty;
     }
 
+    public MenuCard getMenuCard() {
+        return menuCard;
+    }
+
     public Statistics getStatistics() {
         return statistics;
     }
-    
-    public int getPlayerId() {
-        return playerId;
-    }
-    
+
     public String getName() {
         return this.name;
     }

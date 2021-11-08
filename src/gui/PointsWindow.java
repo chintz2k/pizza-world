@@ -25,12 +25,13 @@ import logic.Game;
  */
 public class PointsWindow extends Stage {
     
-    private final Game game;
     private final Stage stage;
+
+    private final Game game;
     
-    public PointsWindow(Game game, Stage stage) {
-        this.game = game;
+    public PointsWindow(Stage stage, Game game) {
         this.stage = stage;
+        this.game = game;
     }
     
     public Parent showWindow() {
@@ -39,9 +40,9 @@ public class PointsWindow extends Stage {
         gp.setMinSize(360.0, 520.0);
         gp.setMaxSize(360.0, 520.0);
         gp.add(new Text("Punkteliste"), 0, 0, 2, 1);
-        for (int i = 0; i < Game.PLAYERCOUNT; i++) {
-            gp.add(new Text(game.getPlayers()[i].getName()), 0, i + 1);
-            gp.add(new Text(String.valueOf(game.getPlayers()[i].getPoints())), 1, i + 1);
+        for (int i = 0; i < Game.NUMBER_OF_PLAYERS; i++) {
+            gp.add(new Text(game.getPlayer(i).getName()), 0, i + 1);
+            gp.add(new Text(String.valueOf(game.getPlayer(i).getPoints())), 1, i + 1);
         }
         
         GridPane.setHalignment(gp.getChildren().get(0), HPos.CENTER);
@@ -70,7 +71,7 @@ public class PointsWindow extends Stage {
         
         button.setOnAction((ActionEvent) -> {
             game.startNewDay();
-            stage.getScene().setRoot(new MainWindow(game, stage).showElement());
+            stage.getScene().setRoot(new MainWindow(stage, game).showElement());
         });
         
         GridPane gpRoot = new GridPane();

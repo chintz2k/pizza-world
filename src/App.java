@@ -28,7 +28,7 @@ public class App extends Application {
 
         buttons[0].setOnAction((ActionEvent) -> {
             Game game = new Game();
-            stage.getScene().setRoot(new MainWindow(game, stage).showElement());
+            stage.getScene().setRoot(new MainWindow(stage, game).showElement());
         });
 
         Scene scene = new Scene(vb, 360, 640);

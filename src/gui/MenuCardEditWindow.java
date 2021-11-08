@@ -26,27 +26,28 @@ import logic.Game;
  */
 public class MenuCardEditWindow extends Stage {
 
-    private final Game game;
     private final Stage stage;
+    
+    private final Game game;
 
-    private int max;
+    private int activatedDishes;
 
     private final CheckBox[] cb;
 
-    public MenuCardEditWindow(Game game, Stage stage) {
-        this.game = game;
+    public MenuCardEditWindow(Stage stage, Game game) {
         this.stage = stage;
-        this.cb = new CheckBox[game.getProducts().getDishes().size()];
-        this.max = 0;
-        for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
-            cb[i] = new CheckBox(game.getProducts().getDishes().get(i).getName());
+        this.game = game;
+        this.cb = new CheckBox[Game.NUMBER_OF_DISHES];
+        this.activatedDishes = 0;
+        for (int i = 0; i < Game.NUMBER_OF_DISHES; i++) {
+            cb[i] = new CheckBox(game.getPlayer(0).getMenuCard().getDish(i).getName());
             cb[i].setMinSize(32.5, 32.5);
         }
-        for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
-            if (game.getProducts().getDishes().get(i).isAvailable(0)) {
-                max++;
+        for (int i = 0; i < Game.NUMBER_OF_DISHES; i++) {
+            if (game.getPlayer(0).getMenuCard().getDish(i).isAvailable()) {
+                activatedDishes++;
                 cb[i].setSelected(true);
-                if (max >= game.getProducts().getDishes().size() / 2) {
+                if (activatedDishes >= Game.MAX_AMOUNT_OF_DISHES) {
                     blockBoxes();
                 }
             }
@@ -54,13 +55,13 @@ public class MenuCardEditWindow extends Stage {
         for (int i = 0; i < cb.length; i++) {
             cb[i].selectedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
                 if (newValue) {
-                    max++;
-                    if (max >= game.getProducts().getDishes().size() / 2) {
+                    activatedDishes++;
+                    if (activatedDishes >= Game.MAX_AMOUNT_OF_DISHES) {
                         blockBoxes();
                     }
                     setAvailable();
                 } else {
-                    max--;
+                    activatedDishes--;
                     unblockBoxes();
                     setAvailable();
                 }
@@ -85,9 +86,9 @@ public class MenuCardEditWindow extends Stage {
     public final void setAvailable() {
         for (int i = 0; i < cb.length; i++) {
             if (cb[i].isSelected()) {
-                game.getProducts().getDishes().get(i).setAvailable(0, true);
+                game.getPlayer(0).getMenuCard().getDish(i).setAvailable(true);
             } else {
-                game.getProducts().getDishes().get(i).setAvailable(0, false);
+                game.getPlayer(0).getMenuCard().getDish(i).setAvailable(false);
             }
         }
     }
@@ -118,7 +119,7 @@ public class MenuCardEditWindow extends Stage {
         for (int i = 0; i < cb.length; i++) {
             gp.add(new Text(), 0, i + 1);
             gp.add(cb[i], 1, i + 1);
-            gp.add(new Text(game.getProducts().getDishes().get(i).getPrice() + " €"), 2, i + 1);
+            gp.add(new Text(game.getPlayer(0).getMenuCard().getDish(i).getPrice() + " €"), 2, i + 1);
         }
         gp.getRowConstraints().add(new RowConstraints(setCheckBoxSize(gp.getRowCount(), gp.getMinHeight())));
         gp.getColumnConstraints().add(new ColumnConstraints(50.0));
@@ -126,7 +127,11 @@ public class MenuCardEditWindow extends Stage {
         gp.getColumnConstraints().add(new ColumnConstraints(90.0));
         
         button.setOnAction((ActionEvent) -> {
-            stage.getScene().setRoot(new MenuCardWindow(game, stage).showElement());
+            if (activatedDishes != 0) {
+                stage.getScene().setRoot(new MenuCardWindow(stage, game).showElement());
+            } else {
+                stage.getScene().setRoot(new MenuCardWindow(stage, game).showElement());
+            }
         });
 
         GridPane gpRoot = new GridPane();

@@ -1,11 +1,6 @@
-SPEISENKARTE
-- bei leerer Speisenkarte, veränderter Screen
-
 TAGESWECHSEL
 - Warnung bei leerer Speisenkarte
 - Anzeige der verkauften Speisen
-- allgemeiner Prozess ist ungewöhnlich/nicht optimal
-- endCurrentDay() und startNewDay() mit Rückgabewert?
 
 Newsfeed
 - hat bisher keine Funktion
@@ -16,6 +11,7 @@ PlayerAi
 
 GUI
 - GridLinesVisible sämtlicher gpRoots sieht komisch aus! Achte auf BackgroundColors!
+- game nicht übergeben?
 
 Guest
 - Punkte sind im Moment nach getPrice(), nicht gerade sinnvoll placeholder

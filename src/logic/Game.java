@@ -1,7 +1,5 @@
 package logic;
 
-import dishes.Products;
-
 /**
  *
  * @author André Heinen
@@ -10,72 +8,73 @@ public class Game {
 
     public static final boolean DEBUGGING = true;
 
-    public static final int GUESTCOUNT = 1000;
-    public static final int PLAYERCOUNT = 4;
-    
+    public static final int NUMBER_OF_GUESTS = 1000;
+    public static final int NUMBER_OF_PLAYERS = 4;
+    public static final int NUMBER_OF_DISHES = 16;
+    public static final int MAX_AMOUNT_OF_DISHES = 8;
+
     private int day = 1;
 
-    private final Products products;
     private final Newsfeed newsfeed;
-    private final GuestList guestlist;
-    
+
+    private final Guest[] guests;
     private final Player[] players;
 
     public Game() {
 
-        products = new Products();
         newsfeed = new Newsfeed();
-        guestlist = new GuestList(this);
 
-        players = new Player[PLAYERCOUNT];
-        players[0] = new Player(this);
+        guests = new Guest[NUMBER_OF_GUESTS];
+        for (int i = 0; i < guests.length; i++) {
+            guests[i] = new Guest();
+        }
+
+        players = new Player[NUMBER_OF_PLAYERS];
+        players[0] = new Player();
         for (int i = 1; i < players.length; i++) {
-            players[i] = new PlayerAi(this);
+            players[i] = new PlayerAi();
         }
         
         if (DEBUGGING) {
-            int pl = -1;
+            int player = -1;
             for (int i = 0; i < 16; i++) {
                 if ((i % 4) == 0) {
-                    pl++;
+                    player++;
                 }
-                products.getDishes().get(i).setAvailable(pl, true);
+                players[player].getMenuCard().getDish(i).setAvailable(true);
             }
-        }
-    }
-    
-    public void endCurrentDay() {
-        for (int i = 0; i < Game.PLAYERCOUNT; i++) {
-            for (int j = 0; j < Game.GUESTCOUNT; j++) {
-                this.guestlist.getGuests().get(j).buy(i);
-            }
-        }
-    }
-
-    public void startNewDay() {
-        day += 1;
-        for (int i = 0; i < PLAYERCOUNT; i++) {
-            players[i].getStatistics().addColumn();
         }
     }
 
     public int getDay() {
         return day;
     }
-    
-    public Products getProducts() {
-        return products;
-    }
 
     public Newsfeed getNewsfeed() {
         return newsfeed;
     }
     
-    public GuestList getGuestList() {
-        return guestlist;
+    public Player getPlayer(int player) {
+        return players[player];
     }
-    
-    public Player[] getPlayers() {
-        return players;
+
+    public void endCurrentDay() {
+        for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
+            for (int j = 0; j < NUMBER_OF_GUESTS; j++) {
+                if (guests[j].isLikeAvailable(players[i])) {
+                    players[i].addMoney(players[i].getMenuCard().getDish(guests[j].getLike()).getPrice());
+                    players[i].addPoints(players[i].getMenuCard().getDish(guests[j].getLike()).getPrice());
+                    players[i].getStatistics().addSoldUnits(guests[j].getLike(), day, 1);
+                    players[i].getStatistics().addSales(guests[j].getLike(), day, players[i].getMenuCard().getDish(guests[j].getLike()).getPrice());
+                }
+            }
+        }
+    }
+
+    public void startNewDay() {
+        day += 1;
+        for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
+            players[i].getStatistics().addColumn();
+        }
     }
 }

@@ -25,12 +25,13 @@ import logic.Game;
  */
 public class MenuCardWindow extends Stage {
     
-    private final Game game;
     private final Stage stage;
+    
+    private final Game game;
 
-    public MenuCardWindow(Game game, Stage stage) {
-        this.game = game;
+    public MenuCardWindow(Stage stage, Game game) {
         this.stage = stage;
+        this.game = game;
     }
     
     public Parent showElement() {
@@ -38,19 +39,23 @@ public class MenuCardWindow extends Stage {
         GridPane gp = new GridPane();
         gp.setMinSize(360.0, 520.0);
         gp.setMaxSize(360.0, 520.0);
-        gp.add(new Text("Speisenkarte"), 0, 0, 2, 1);
-        GridPane.setHalignment(gp.getChildren().get(0), HPos.CENTER);
-        for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
-            if (game.getProducts().getDishes().get(i).isAvailable(0)) {
-                gp.add(new Text(game.getProducts().getDishes().get(i).getName()), 0, gp.getRowCount());
-                gp.add(new Text(game.getProducts().getDishes().get(i).getPrice() + " €"), 1, gp.getRowCount() - 1);
+        if (!game.getPlayer(0).getMenuCard().isMenuCardEmpty()) {
+            gp.add(new Text("Speisenkarte"), 0, 0, 2, 1);
+            for (int i = 0; i < Game.NUMBER_OF_DISHES; i++) {
+                if (game.getPlayer(0).getMenuCard().getDish(i).isAvailable()) {
+                    gp.add(new Text(game.getPlayer(0).getMenuCard().getDish(i).getName()), 0, gp.getRowCount());
+                    gp.add(new Text(game.getPlayer(0).getMenuCard().getDish(i).getPrice() + " €"), 1, gp.getRowCount() - 1);
+                }
             }
+            gp.getColumnConstraints().add(new ColumnConstraints(250.0));
+            RowConstraints rc = new RowConstraints(50.0);
+            for (int i = 0; i < gp.getRowCount(); i++) {
+                gp.getRowConstraints().addAll(rc);
+            }
+        } else {
+            gp.add(new Text("Deine Speisenkarte ist leer"), 0, 0, 2, 1);
         }
-        gp.getColumnConstraints().add(new ColumnConstraints(250.0));
-        RowConstraints rc = new RowConstraints(50.0);
-        for (int i = 0; i < gp.getRowCount(); i++) {
-            gp.getRowConstraints().addAll(rc);
-        }
+        GridPane.setHalignment(gp.getChildren().get(0), HPos.CENTER);
         gp.setAlignment(Pos.CENTER);
         gp.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         
@@ -69,11 +74,11 @@ public class MenuCardWindow extends Stage {
         fp.setMaxSize(360.0, 80.0);
         
         buttons[0].setOnAction((ActionEvent) -> {
-            stage.getScene().setRoot(new MenuCardEditWindow(game, stage).showElement());
+            stage.getScene().setRoot(new MenuCardEditWindow(stage, game).showElement());
         });
 
         buttons[1].setOnAction((ActionEvent) -> {
-            stage.getScene().setRoot(new MainWindow(game, stage).showElement());
+            stage.getScene().setRoot(new MainWindow(stage, game).showElement());
         });
 
         GridPane gpRoot = new GridPane();

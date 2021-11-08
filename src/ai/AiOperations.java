@@ -1,6 +1,7 @@
 package ai;
 
 import logic.Game;
+import logic.Player;
 
 /**
  *
@@ -8,38 +9,36 @@ import logic.Game;
  */
 public class AiOperations {
     
-    private final Game game;
-
-    public AiOperations(Game game) {
-        this.game = game;
+    public AiOperations() {
+        
     }
     
-    public int findLeastSales(int player) {
-        int pizza = -1;
-        int least = -1;
-        for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
-            if (game.getProducts().getDishes().get(i).isAvailable(player)) {
-                if (least == -1) {
-                    pizza = i;
-                    least = game.getPlayers()[player].getStatistics().getSales(i, game.getDay());
-                } else if (least > game.getPlayers()[player].getStatistics().getSales(i, (game.getDay()))) {
-                    pizza = i;
-                    least = game.getPlayers()[player].getStatistics().getSales(i, game.getDay());
+    public int getWorstSellingDish(Player player, int day) {
+        int dish = -1;
+        int worst = -1;
+        for (int i = 0; i < Game.NUMBER_OF_DISHES; i++) {
+            if (player.getMenuCard().getDish(i).isAvailable()) {
+                if (worst == -1) {
+                    dish = i;
+                    worst = player.getStatistics().getSales(i, day);
+                } else if (worst > player.getStatistics().getSales(i, day)) {
+                    dish = i;
+                    worst = player.getStatistics().getSales(i, day);
                 }
             }
         }
-        return pizza;
+        return dish;
     }
     
-    public void exchangeDishRnd(int player, int oldDish) {
-        boolean pizzaFound = false;
-        while (!pizzaFound) {
-            int random = (int) (Math.random() * game.getProducts().getDishes().size());
-            if (game.getProducts().getDishes().get(random).isAvailable(player) == false) {
-                game.getProducts().getDishes().get(random).setAvailable(player, true);
-                pizzaFound = true;
+    public void exchangeRandomDish(Player player, int dish) {
+        boolean dishFound = false;
+        while (!dishFound) {
+            int randomDish = (int) (Math.random() * Game.NUMBER_OF_DISHES);
+            if (!player.getMenuCard().getDish(randomDish).isAvailable()) {
+                player.getMenuCard().getDish(randomDish).setAvailable(true);
+                dishFound = true;
             }
         }
-        game.getProducts().getDishes().get(oldDish).setAvailable(player, false);
+        player.getMenuCard().getDish(dish).setAvailable(false);
     }
 }

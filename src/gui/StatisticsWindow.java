@@ -25,14 +25,15 @@ import logic.Game;
  */
 public class StatisticsWindow extends Stage {
     
-    private final Game game;
     private final Stage stage;
+    
+    private final Game game;
     
     private final int option;
 
-    public StatisticsWindow(Game game, Stage stage, int option) {
-        this.game = game;
+    public StatisticsWindow(Stage stage, Game game, int option) {
         this.stage = stage;
+        this.game = game;
         
         this.option = option;
     }
@@ -50,23 +51,23 @@ public class StatisticsWindow extends Stage {
         gp.add(new Text("Gestern"), 1, 1);
         gp.add(new Text("Gesamt"), 2, 1);
         if (option == 0) {
-            for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
-                gp.add(new Text(game.getProducts().getDishes().get(i).getName()), 0, i + 2);
-                gp.add(new Text(String.valueOf(game.getPlayers()[0].getStatistics().getSoldUnits(i, game.getDay() - 1))), 1, i + 2);
-                gp.add(new Text(String.valueOf(game.getPlayers()[0].getStatistics().getSoldUnitsAllTime(i, game.getDay()))), 2, i + 2);
+            for (int i = 0; i < Game.NUMBER_OF_DISHES; i++) {
+                gp.add(new Text(game.getPlayer(0).getMenuCard().getDish(i).getName()), 0, i + 2);
+                gp.add(new Text(String.valueOf(game.getPlayer(0).getStatistics().getSoldUnits(i, game.getDay() - 1))), 1, i + 2);
+                gp.add(new Text(String.valueOf(game.getPlayer(0).getStatistics().getSoldUnitsAllTime(i, game.getDay()))), 2, i + 2);
             }
             gp.add(new Text("Gesamt"), 0, gp.getRowCount());
-            gp.add(new Text(String.valueOf(game.getPlayers()[0].getStatistics().getSoldUnitsTotal(game.getDay() - 1))), 1, gp.getRowCount() - 1);
-            gp.add(new Text(String.valueOf(game.getPlayers()[0].getStatistics().getSoldUnitsAllTimeTotal(game.getDay()))), 2, gp.getRowCount() - 1);
+            gp.add(new Text(String.valueOf(game.getPlayer(0).getStatistics().getSoldUnitsTotal(game.getDay() - 1))), 1, gp.getRowCount() - 1);
+            gp.add(new Text(String.valueOf(game.getPlayer(0).getStatistics().getSoldUnitsAllTimeTotal(game.getDay()))), 2, gp.getRowCount() - 1);
         } else if (option == 1) {
-            for (int i = 0; i < game.getProducts().getDishes().size(); i++) {
-                gp.add(new Text(game.getProducts().getDishes().get(i).getName()), 0, i + 2);
-                gp.add(new Text(game.getPlayers()[0].getStatistics().getSales(i, game.getDay() - 1) + " €"), 1, i + 2);
-                gp.add(new Text(game.getPlayers()[0].getStatistics().getSalesAllTime(i, game.getDay()) + " €"), 2, i + 2);
+            for (int i = 0; i < Game.NUMBER_OF_DISHES; i++) {
+                gp.add(new Text(game.getPlayer(0).getMenuCard().getDish(i).getName()), 0, i + 2);
+                gp.add(new Text(game.getPlayer(0).getStatistics().getSales(i, game.getDay() - 1) + " €"), 1, i + 2);
+                gp.add(new Text(game.getPlayer(0).getStatistics().getSalesAllTime(i, game.getDay()) + " €"), 2, i + 2);
             }
             gp.add(new Text("Gesamt"), 0, gp.getRowCount());
-            gp.add(new Text(game.getPlayers()[0].getStatistics().getSalesTotal(game.getDay() - 1) + " €"), 1, gp.getRowCount() - 1);
-            gp.add(new Text(game.getPlayers()[0].getStatistics().getSalesAllTimeTotal(game.getDay()) + " €"), 2, gp.getRowCount() - 1);
+            gp.add(new Text(game.getPlayer(0).getStatistics().getSalesTotal(game.getDay() - 1) + " €"), 1, gp.getRowCount() - 1);
+            gp.add(new Text(game.getPlayer(0).getStatistics().getSalesAllTimeTotal(game.getDay()) + " €"), 2, gp.getRowCount() - 1);
         }
         
         for (int i = 1; i < gp.getChildren().size(); i += 3) {
@@ -107,15 +108,15 @@ public class StatisticsWindow extends Stage {
         
         if (option == 0) {
             buttons[0].setOnAction((ActionEvent) -> {
-                stage.getScene().setRoot(new StatisticsWindow(game, stage, 1).showElement());
+                stage.getScene().setRoot(new StatisticsWindow(stage, game, 1).showElement());
             });
         } else if (option == 1) {
             buttons[0].setOnAction((ActionEvent) -> {
-                stage.getScene().setRoot(new StatisticsWindow(game, stage, 0).showElement());
+                stage.getScene().setRoot(new StatisticsWindow(stage, game, 0).showElement());
             });
         }
         buttons[1].setOnAction((ActionEvent) -> {
-            stage.getScene().setRoot(new MainWindow(game, stage).showElement());
+            stage.getScene().setRoot(new MainWindow(stage, game).showElement());
         });
         
         GridPane gpRoot = new GridPane();
