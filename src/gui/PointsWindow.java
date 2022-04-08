@@ -1,87 +1,65 @@
 package gui;
 
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import gui.elements.BottomPanel;
-import gui.elements.TopPanel;
+
 import logic.Game;
 
 /**
  *
  * @author André Heinen
  */
-public class PointsWindow extends Stage {
-    
-    private final Stage stage;
+public class PointsWindow {
 
-    private final Game game;
+    Group root;
     
-    public PointsWindow(Stage stage, Game game) {
-        this.stage = stage;
-        this.game = game;
-    }
-    
-    public Parent showWindow() {
+    public PointsWindow(GameWindow window, Game game) {
         
         GridPane gp = new GridPane();
         gp.setMinSize(360.0, 520.0);
-        gp.setMaxSize(360.0, 520.0);
         gp.add(new Text("Punkteliste"), 0, 0, 2, 1);
         for (int i = 0; i < Game.NUMBER_OF_PLAYERS; i++) {
             gp.add(new Text(game.getPlayer(i).getName()), 0, i + 1);
             gp.add(new Text(String.valueOf(game.getPlayer(i).getPoints())), 1, i + 1);
         }
-        
-        GridPane.setHalignment(gp.getChildren().get(0), HPos.CENTER);
-        
-        Button button = new Button("OK");
-        button.setMinSize(360.0, 80.0);
-        button.setMaxSize(360.0, 80.0);
-        
-        FlowPane fp = new FlowPane(button);
-        fp.setMinSize(360.0, 80.0);
-        fp.setMaxSize(360.0, 80.0);
-        
         gp.setAlignment(Pos.CENTER);
-        gp.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-        
-        for (int i = 2; i <= gp.getChildren().size() - 1; i += 2) {
-            GridPane.setHalignment(gp.getChildren().get(i), HPos.RIGHT);
-        }
-        
+        GridPane.setHalignment(gp.getChildren().get(0), HPos.CENTER);
         ColumnConstraints cc = new ColumnConstraints(130.0);
         gp.getColumnConstraints().addAll(cc, cc);
         RowConstraints rc = new RowConstraints(40.0);
         for (int i = 0; i < gp.getRowCount(); i++) {
             gp.getRowConstraints().add(rc);
         }
+        for (int i = 2; i <= gp.getChildren().size() - 1; i += 2) {
+            GridPane.setHalignment(gp.getChildren().get(i), HPos.RIGHT);
+        }
+        
+        Button button = new Button("OK");
+        button.setMinSize(360.0, 80.0);
+        
+        FlowPane fp = new FlowPane(button);
+        fp.setMinSize(360.0, 80.0);
         
         button.setOnAction((ActionEvent) -> {
             game.startNewDay();
-            stage.getScene().setRoot(new MainWindow(stage, game).showElement());
+            //stage.getScene().setRoot(new MainWindow(stage, game).get());
+            //window.change(new MainWindow(window, game).getRoot());
         });
         
-        GridPane gpRoot = new GridPane();
-        gpRoot.addRow(0, new TopPanel(game).showElement());
-        gpRoot.addRow(1, gp);
-        gpRoot.addRow(2, fp);
-        gpRoot.addRow(3, new BottomPanel(game).showElement());
-        
-        gpRoot.setGridLinesVisible(true);
-        
-        return gpRoot;
+        root = new Group(new VBox(gp, fp));
+
     }
+    
+    public Group getRoot() {
+        return root;
+    }
+
 }

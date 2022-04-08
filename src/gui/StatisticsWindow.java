@@ -1,48 +1,30 @@
 package gui;
 
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import gui.elements.BottomPanel;
-import gui.elements.TopPanel;
+
 import logic.Game;
 
 /**
  *
  * @author André Heinen
  */
-public class StatisticsWindow extends Stage {
-    
-    private final Stage stage;
-    
-    private final Game game;
-    
-    private final int option;
+public class StatisticsWindow {
 
-    public StatisticsWindow(Stage stage, Game game, int option) {
-        this.stage = stage;
-        this.game = game;
-        
-        this.option = option;
-    }
-    
-    public Parent showElement() {
-        
+    Group root;    
+
+    public StatisticsWindow(GameWindow window, Game game, int option) {
+
         GridPane gp = new GridPane();
         gp.setMinSize(360.0, 520.0);
-        gp.setMaxSize(360.0, 520.0);
         if (option == 0) {
             gp.addRow(0, new Text("Verkaufte Pizzen"));
         } else if (option == 1) {
@@ -86,7 +68,6 @@ public class StatisticsWindow extends Stage {
         gp.getRowConstraints().add(gp.getRowCount() - 1, rc1);
         
         gp.setAlignment(Pos.CENTER);
-        gp.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         
         Button[] buttons = new Button[2];
         if (option == 0) {
@@ -99,33 +80,33 @@ public class StatisticsWindow extends Stage {
 
         for (Button button : buttons) {
             button.setMinSize(180.0, 80.0);
-            button.setMaxSize(180.0, 80.0);
         }
 
         FlowPane fp = new FlowPane(buttons);
         fp.setMinSize(360.0, 80.0);
-        fp.setMaxSize(360.0, 80.0);
         
         if (option == 0) {
             buttons[0].setOnAction((ActionEvent) -> {
-                stage.getScene().setRoot(new StatisticsWindow(stage, game, 1).showElement());
+                //stage.getScene().setRoot(new StatisticsWindow(stage, game, 1).get());
+                //window.change(new StatisticsWindow(window, game, 1).getRoot());
             });
         } else if (option == 1) {
             buttons[0].setOnAction((ActionEvent) -> {
-                stage.getScene().setRoot(new StatisticsWindow(stage, game, 0).showElement());
+                //stage.getScene().setRoot(new StatisticsWindow(stage, game, 0).get());
+                //window.change(new StatisticsWindow(window, game, 0).getRoot());
             });
         }
         buttons[1].setOnAction((ActionEvent) -> {
-            stage.getScene().setRoot(new MainWindow(stage, game).showElement());
+            //stage.getScene().setRoot(new MainWindow(stage, game).get());
+            //window.change(new MainWindow(window, game).getRoot());
         });
-        
-        GridPane gpRoot = new GridPane();
-        gpRoot.addRow(0, new TopPanel(game).showElement());
-        gpRoot.addRow(1, gp);
-        gpRoot.addRow(2, fp);
-        gpRoot.addRow(3, new BottomPanel(game).showElement());
-        gpRoot.setGridLinesVisible(true);
 
-        return gpRoot;
+        root = new Group(new VBox(gp, fp));
+        
     }
+    
+    public Group getRoot() {
+        return root;
+    }
+
 }

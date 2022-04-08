@@ -1,38 +1,32 @@
 package gui;
 
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import gui.elements.BottomPanel;
-import gui.elements.TopPanel;
 import logic.Game;
 
 /**
  *
  * @author André Heinen
  */
-public class MainWindow extends Stage {
+public class MainWindow {
 
-    private final Stage stage;
+    Group root;
 
-    private final Game game;
+    VBox vbox;
 
-    public MainWindow(Stage stage, Game game) {
-        this.stage = stage;
-        this.game = game;
-    }
+    public MainWindow(GameWindow window, Game game) {
 
-    public Parent showElement() {
+        vbox = new VBox();
+
         TextArea news = new TextArea(game.getNewsfeed().getNews());
         news.appendText("");
         news.setEditable(false);
-        news.setMinSize(360.0, 440.0);
-        news.setMaxSize(360.0, 440.0);
         news.textProperty().addListener((observable) -> {
             news.setScrollTop(Double.MAX_VALUE);
         });
@@ -41,49 +35,35 @@ public class MainWindow extends Stage {
             news.appendText("");
         });
 
+        if (Game.DEBUGGING) {
+            Text[] enemyStats = new Text[Game.NUMBER_OF_PLAYERS - 1];
+            for (int i = 0; i < enemyStats.length; ++i) {
+                enemyStats[i] = new BottomPanel(game, i + 1).getText();
+            }
+            vbox.getChildren().addAll(enemyStats);
+            vbox.getChildren().add(news);
+        } else {
+            news.setPrefHeight(440.0);
+            vbox.getChildren().add(news);
+        }
+        
         Button[] buttons = {
             new Button("Speisenkarte"),
             new Button("Personal"),
             new Button("Statistik"),
             new Button("Tag beenden")
         };
-
         for (Button button : buttons) {
-            button.setMinSize(180.0, 80.0);
-            button.setMaxSize(180.0, 80.0);
+            button.setPrefSize(180.0, 80.0);
         }
-
         FlowPane fp = new FlowPane(buttons);
-        fp.setMinSize(360.0, 160.0);
-        fp.setMaxSize(360.0, 160.0);
+        vbox.getChildren().add(fp);
 
-        GridPane gpRoot = new GridPane();
-        
-        if (Game.DEBUGGING) {
-            int minsz = 440 - ((Game.NUMBER_OF_PLAYERS - 1) * 40);
-            news.setMinSize(360, minsz);
-            int y = 0;
-            for (int i = 0; i < Game.NUMBER_OF_PLAYERS; i++) {
-                gpRoot.addRow(y, new TopPanel(game).showElement());
-                y++;
-                gpRoot.addRow(y, new BottomPanel(game, i).showElement());
-                y++;
-            }
-            gpRoot.addRow(y, news);
-            y++;
-            gpRoot.addRow(y, fp);
-        } else {
-            gpRoot.addRow(0, new TopPanel(game).showElement());
-            gpRoot.addRow(1, news);
-            gpRoot.addRow(2, fp);
-            gpRoot.addRow(3, new BottomPanel(game).showElement());
-            gpRoot.setGridLinesVisible(true);
-        }
-        
-        gpRoot.setGridLinesVisible(true);
+        root = new Group();
+        root.getChildren().add(vbox);
 
         buttons[0].setOnAction((ActionEvent) -> {
-            stage.getScene().setRoot(new MenuCardWindow(stage, game).showElement());
+            //controller.changeMid(new MenuCardWindow(controller, game).getRoot());
         });
 
         buttons[1].setOnAction((ActionEvent) -> {
@@ -91,50 +71,18 @@ public class MainWindow extends Stage {
         });
 
         buttons[2].setOnAction((ActionEvent) -> {
-            stage.getScene().setRoot(new StatisticsWindow(stage, game, 0).showElement());
+            //controller.changeMid(new StatisticsWindow(controller, game, 0).getRoot());
         });
 
         buttons[3].setOnAction((ActionEvent) -> {
-            game.endCurrentDay();
-            stage.getScene().setRoot(new EndDayWindow(stage, game).showElement());
+            //game.endCurrentDay();
+            //controller.changeMid(new EndDayWindow(controller, game).getRoot());
         });
 
-        stage.getScene().setOnKeyReleased((KeyEvent event) -> {
-            if (event.getCode() == KeyCode.U) {
-                for (int i = 0; i < game.getPlayer(0).getStatistics().getSoldUnits().size(); i++) {
-                    for (int j = 0; j < game.getPlayer(0).getStatistics().getSoldUnits().get(i).size(); j++) {
-                        System.out.println(i + "/" +  j + ":" + game.getPlayer(0).getStatistics().getSoldUnits().get(i).get(j));
-                    }
-                }
-            }
-            if (event.getCode() == KeyCode.S) {
-                for (int i = 0; i < game.getPlayer(0).getStatistics().getSales().size(); i++) {
-                    for (int j = 0; j < game.getPlayer(0).getStatistics().getSales().get(i).size(); j++) {
-                        System.out.println(i + "/" +  j + ":" + game.getPlayer(0).getStatistics().getSales().get(i).get(j));
-                    }
-                }
-            }
-            if (event.getCode() == KeyCode.A) {
-                System.out.println(game.getPlayer(0).getStatistics().getSoldUnits().size());
-                System.out.println(game.getPlayer(0).getStatistics().getSoldUnits().get(0));
-            }
-            if (event.getCode() == KeyCode.B) {
-                for (int c = 0; c < 10000; c++) {
-                    for (int i = 0; i < Game.NUMBER_OF_PLAYERS; i++) {
-                        for (int j = 0; j < Game.NUMBER_OF_GUESTS; j++) {
-                            
-                        }
-                    }
-                }
-            }
-            if (event.getCode() == KeyCode.D) {
-                game.getPlayer(0).addMoney(1);
-            }
-            if (event.getCode() == KeyCode.Z) {
-                
-            }
-        });
-
-        return gpRoot;
     }
+
+    public Parent getRoot() {
+        return root;
+    }
+
 }

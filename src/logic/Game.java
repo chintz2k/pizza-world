@@ -12,6 +12,8 @@ public class Game {
     public static final int NUMBER_OF_PLAYERS = 4;
     public static final int NUMBER_OF_DISHES = 16;
     public static final int MAX_AMOUNT_OF_DISHES = 8;
+    public static final double WIDTH = 360.0;
+    public static final double HEIGHT = 640.0;
 
     private int day = 1;
 
