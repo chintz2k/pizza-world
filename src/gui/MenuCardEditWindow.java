@@ -25,7 +25,7 @@ public class MenuCardEditWindow {
     CheckBox[] cb;
     int activatedDishes;
 
-    public MenuCardEditWindow(GameWindow window, Game game) {
+    public MenuCardEditWindow(Game game) {
 
         cb = new CheckBox[Game.NUMBER_OF_DISHES];
         activatedDishes = 0;

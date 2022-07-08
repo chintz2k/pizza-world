@@ -19,11 +19,9 @@ import logic.Game;
  */
 public class MenuCardWindow {
 
-    Group root;
-
     VBox container;
 
-    public MenuCardWindow(GameWindow window, Game game) {
+    public MenuCardWindow(Game game) {
         
         Button[] buttons = {
             new Button("Bearbeiten"),
@@ -37,6 +35,7 @@ public class MenuCardWindow {
         FlowPane fp = new FlowPane(buttons);
 
         GridPane gp = new GridPane();
+        gp.setPrefHeight(450.0);
         if (!game.getPlayer(0).getMenuCard().isMenuCardEmpty()) {
             gp.add(new Text("Speisenkarte"), 0, 0, 2, 1);
             for (int i = 0; i < Game.NUMBER_OF_DISHES; i++) {
@@ -45,11 +44,11 @@ public class MenuCardWindow {
                     gp.add(new Text(game.getPlayer(0).getMenuCard().getDish(i).getPrice() + " €"), 1, gp.getRowCount() - 1);
                 }
             }
-            //gp.getColumnConstraints().add(new ColumnConstraints(window.getWidth() * 0.6));
-            //gp.getColumnConstraints().add(new ColumnConstraints(window.getWidth() * 0.2));
-            //RowConstraints rc = new RowConstraints((window.getMainWindowHeight() - buttons[0].getMinHeight()) / (Game.MAX_AMOUNT_OF_DISHES + 1));
+            gp.getColumnConstraints().add(new ColumnConstraints(360.0 * 0.6)); /* TODO width nicht fix */
+            gp.getColumnConstraints().add(new ColumnConstraints(360.0 * 0.2));
+            RowConstraints rc = new RowConstraints((360.0) / (Game.MAX_AMOUNT_OF_DISHES + 1));
             for (int i = 0; i < gp.getRowCount(); i++) {
-                //gp.getRowConstraints().addAll(rc);
+                gp.getRowConstraints().addAll(rc);
             }
         } else {
             gp.add(new Text("Deine Speisenkarte ist leer"), 0, 0, 2, 1);
@@ -64,8 +63,6 @@ public class MenuCardWindow {
         
         container = new VBox(gp, fp);
 
-        root = new Group(container);
-
         buttons[0].setOnAction((ActionEvent) -> {
             //window.change(new MenuCardEditWindow(window, game).getRoot());
         });
@@ -76,8 +73,8 @@ public class MenuCardWindow {
 
     }
     
-    public Group getRoot() {
-        return root;
+    public VBox getRoot() {
+        return container;
     }
 
 }

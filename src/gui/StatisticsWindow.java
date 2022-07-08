@@ -21,7 +21,7 @@ public class StatisticsWindow {
 
     Group root;    
 
-    public StatisticsWindow(GameWindow window, Game game, int option) {
+    public StatisticsWindow(Game game, int option) {
 
         GridPane gp = new GridPane();
         gp.setMinSize(360.0, 520.0);

@@ -1,6 +1,5 @@
 import javafx.application.Application;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -8,7 +7,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 import logic.Game;
-import gui.GameWindow;
+import gui.MainWindow;
 
 /**
  *
@@ -38,9 +37,8 @@ public class App extends Application {
 
         buttons.get(0).setOnAction((ActionEvent) -> {
             Game game = new Game();
-            GameWindow gw = new GameWindow(scene.getHeight(), game);
-            Parent parent = gw.getRoot();
-            stage.getScene().setRoot(parent);
+            MainWindow mw = new MainWindow(game);
+            stage.getScene().setRoot(mw.getRoot());
         });
 
         stage.setResizable(true);

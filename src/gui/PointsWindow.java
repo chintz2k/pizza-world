@@ -21,7 +21,7 @@ public class PointsWindow {
 
     Group root;
     
-    public PointsWindow(GameWindow window, Game game) {
+    public PointsWindow(Game game) {
         
         GridPane gp = new GridPane();
         gp.setMinSize(360.0, 520.0);

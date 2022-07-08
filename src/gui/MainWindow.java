@@ -1,7 +1,5 @@
 package gui;
 
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.FlowPane;
@@ -16,13 +14,13 @@ import logic.Game;
  */
 public class MainWindow {
 
-    Group root;
-
     VBox vbox;
 
-    public MainWindow(GameWindow window, Game game) {
+    public MainWindow(Game game) {
 
         vbox = new VBox();
+
+        vbox.getChildren().add(new Text(new BottomPanel(game).getText()));
 
         TextArea news = new TextArea(game.getNewsfeed().getNews());
         news.appendText("");
@@ -38,15 +36,16 @@ public class MainWindow {
         if (Game.DEBUGGING) {
             Text[] enemyStats = new Text[Game.NUMBER_OF_PLAYERS - 1];
             for (int i = 0; i < enemyStats.length; ++i) {
-                enemyStats[i] = new BottomPanel(game, i + 1).getText();
+                enemyStats[i] = new Text(new BottomPanel(game, i + 1).getText());
             }
             vbox.getChildren().addAll(enemyStats);
-            vbox.getChildren().add(news);
+            news.setPrefHeight(440.0);
         } else {
             news.setPrefHeight(440.0);
-            vbox.getChildren().add(news);
         }
         
+        vbox.getChildren().add(news);
+
         Button[] buttons = {
             new Button("Speisenkarte"),
             new Button("Personal"),
@@ -59,11 +58,10 @@ public class MainWindow {
         FlowPane fp = new FlowPane(buttons);
         vbox.getChildren().add(fp);
 
-        root = new Group();
-        root.getChildren().add(vbox);
-
         buttons[0].setOnAction((ActionEvent) -> {
             //controller.changeMid(new MenuCardWindow(controller, game).getRoot());
+            vbox.getChildren().clear();
+            vbox.getChildren().add(new MenuCardWindow(game).getRoot());
         });
 
         buttons[1].setOnAction((ActionEvent) -> {
@@ -81,8 +79,8 @@ public class MainWindow {
 
     }
 
-    public Parent getRoot() {
-        return root;
+    public VBox getRoot() {
+        return vbox;
     }
 
 }

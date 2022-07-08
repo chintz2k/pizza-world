@@ -1,7 +1,5 @@
 package gui.elements;
 
-import javafx.scene.text.Text;
-
 import logic.Game;
 
 /**
@@ -10,15 +8,15 @@ import logic.Game;
  */
 public class TopPanel {
     
-    Text text;
+    String text;
 
     public TopPanel(Game game) {
 
-        text = new Text(String.valueOf("Tag " + game.getDay()));
+        text = "Tag " + game.getDay();
 
     }
     
-    public Text getText() {
+    public String getText() {
         return text;
     }
 

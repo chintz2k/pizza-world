@@ -16,7 +16,7 @@ public class EndDayWindow {
 
     Group root;
 
-    public EndDayWindow(GameWindow window, Game game) {
+    public EndDayWindow(Game game) {
         
         String dayStats = "";
         if (Game.DEBUGGING) {
