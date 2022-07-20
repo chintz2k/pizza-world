@@ -2,13 +2,11 @@ package gui;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import logic.Game;
@@ -19,62 +17,62 @@ import logic.Game;
  */
 public class MenuCardWindow {
 
-    VBox container;
+    private GridPane content;
+    private Button[] buttons = new Button[2];
 
-    public MenuCardWindow(Game game) {
-        
-        Button[] buttons = {
-            new Button("Bearbeiten"),
-            new Button("Zurück")
-        };
+    public MenuCardWindow(Game game, Window window) {
 
-        for (Button button : buttons) {
-            button.setMinSize(180.0, 80.0);
-        }
-
-        FlowPane fp = new FlowPane(buttons);
-
-        GridPane gp = new GridPane();
-        gp.setPrefHeight(450.0);
+        // Content
+        content = new GridPane();
         if (!game.getPlayer(0).getMenuCard().isMenuCardEmpty()) {
-            gp.add(new Text("Speisenkarte"), 0, 0, 2, 1);
+            content.add(new Text("Speisenkarte"), 0, 0, 2, 1);
+            GridPane.setHalignment(content.getChildren().get(0), HPos.CENTER);
             for (int i = 0; i < Game.NUMBER_OF_DISHES; i++) {
                 if (game.getPlayer(0).getMenuCard().getDish(i).isAvailable()) {
-                    gp.add(new Text(game.getPlayer(0).getMenuCard().getDish(i).getName()), 0, gp.getRowCount());
-                    gp.add(new Text(game.getPlayer(0).getMenuCard().getDish(i).getPrice() + " €"), 1, gp.getRowCount() - 1);
+                    content.add(new Text(game.getPlayer(0).getMenuCard().getDish(i).getName()), 0, content.getRowCount());
+                    content.add(new Text(game.getPlayer(0).getMenuCard().getDish(i).getPrice() + " €"), 1, content.getRowCount() - 1);
                 }
             }
-            gp.getColumnConstraints().add(new ColumnConstraints(360.0 * 0.6)); /* TODO width nicht fix */
-            gp.getColumnConstraints().add(new ColumnConstraints(360.0 * 0.2));
-            RowConstraints rc = new RowConstraints((360.0) / (Game.MAX_AMOUNT_OF_DISHES + 1));
-            for (int i = 0; i < gp.getRowCount(); i++) {
-                gp.getRowConstraints().addAll(rc);
+            content.getColumnConstraints().add(new ColumnConstraints(GuiConfig.WIDTH * 0.6));
+            content.getColumnConstraints().add(new ColumnConstraints(GuiConfig.WIDTH * 0.2));
+            RowConstraints rc;
+            if (Game.DEBUGGING) {
+                rc = new RowConstraints(GuiConfig.CONTENT_HEIGHT_1_BUTTONSROW_DEBUGGING / content.getRowCount());
+            } else {
+                rc = new RowConstraints(GuiConfig.CONTENT_HEIGHT_1_BUTTONROW / content.getRowCount());
+            }
+            for (int i = 0; i < content.getRowCount(); i++) {
+                content.getRowConstraints().add(rc);
             }
         } else {
-            gp.add(new Text("Deine Speisenkarte ist leer"), 0, 0, 2, 1);
+            content.add(new Text("Deine Speisenkarte ist leer"), 0, 0, 2, 1);
         }
-        GridPane.setHalignment(gp.getChildren().get(0), HPos.CENTER);
-        for (int i = 1; i < gp.getChildren().size(); ++i) {
-            if (i % 2 == 0) {
-                GridPane.setHalignment(gp.getChildren().get(i), HPos.RIGHT);
-            }
-        }
-        gp.setAlignment(Pos.CENTER);
-        
-        container = new VBox(gp, fp);
+
+        // Buttons
+        buttons[0] = new Button("Bearbeiten");
+        buttons[1] = new Button("Zurück");
 
         buttons[0].setOnAction((ActionEvent) -> {
-            //window.change(new MenuCardEditWindow(window, game).getRoot());
+            MenuCardEditWindow w = new MenuCardEditWindow(game, window);
+            window.update(w.getContent(), w.getButtons());
         });
 
         buttons[1].setOnAction((ActionEvent) -> {
-            //window.change(new MainWindow(window, game).getRoot());
+            MainWindow w = new MainWindow(game, window);
+            window.update(w.getContent(), w.getButtons());
         });
 
-    }
-    
-    public VBox getRoot() {
-        return container;
+        // DEBUGGING
+        content.setGridLinesVisible(true);
+        content.setAlignment(Pos.CENTER);
     }
 
+    public Region getContent() {
+        return content;
+    }
+
+    public Button[] getButtons() {
+        return buttons;
+    }
+    
 }

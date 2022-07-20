@@ -2,14 +2,13 @@ package gui;
 
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
-import javafx.scene.Group;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import logic.Game;
@@ -19,19 +18,20 @@ import logic.Game;
  * @author André Heinen
  */
 public class MenuCardEditWindow {
+    
+    private GridPane content;
+    private Button[] buttons = new Button[1];
 
-    Group root;
+    private CheckBox[] cb;
+    private int activatedDishes;
 
-    CheckBox[] cb;
-    int activatedDishes;
+    public MenuCardEditWindow(Game game, Window window) {
 
-    public MenuCardEditWindow(Game game) {
-
+        // Content
         cb = new CheckBox[Game.NUMBER_OF_DISHES];
         activatedDishes = 0;
         for (int i = 0; i < Game.NUMBER_OF_DISHES; i++) {
             cb[i] = new CheckBox(game.getPlayer(0).getMenuCard().getDish(i).getName());
-            cb[i].setMinSize(32.5, 32.5);
         }
         for (int i = 0; i < Game.NUMBER_OF_DISHES; i++) {
             if (game.getPlayer(0).getMenuCard().getDish(i).isAvailable()) {
@@ -58,61 +58,58 @@ public class MenuCardEditWindow {
             });
         }
 
-        Button button = new Button("Zurück");
-        button.setMinHeight(80.0);
-
-        FlowPane fp = new FlowPane(button);
-        fp.setMinSize(360.0, 80.0);
-
-        GridPane gp = new GridPane();
-        gp.setMinSize(360, 520);
-        gp.add(new Text("Maximal 8 Pizzen"), 0, 0, 3, 1);
-        GridPane.setHalignment(gp.getChildren().get(0), HPos.CENTER);
+        content = new GridPane();
+        content.add(new Text("Maximal " + Game.MAX_AMOUNT_OF_DISHES + " Pizzen"), 0, 0, 2, 1);
+        GridPane.setHalignment(content.getChildren().get(0), HPos.CENTER);
         for (int i = 0; i < cb.length; i++) {
-            gp.add(new Text(), 0, i + 1);
-            gp.add(cb[i], 1, i + 1);
-            gp.add(new Text(game.getPlayer(0).getMenuCard().getDish(i).getPrice() + " €"), 2, i + 1);
+            content.add(cb[i], 0, i + 1);
+            content.add(new Text(game.getPlayer(0).getMenuCard().getDish(i).getPrice() + " €"), 1, i + 1);
         }
-        gp.getRowConstraints().add(new RowConstraints(setCheckBoxSize(gp.getRowCount(), gp.getMinHeight())));
-        gp.getColumnConstraints().add(new ColumnConstraints(50.0));
-        gp.getColumnConstraints().add(new ColumnConstraints(220.0));
-        gp.getColumnConstraints().add(new ColumnConstraints(90.0));
+        content.getColumnConstraints().add(new ColumnConstraints(GuiConfig.WIDTH * 0.6));
+        content.getColumnConstraints().add(new ColumnConstraints(GuiConfig.WIDTH * 0.2));
+        RowConstraints rc;
+        if (Game.DEBUGGING) {
+            rc = new RowConstraints(GuiConfig.CONTENT_HEIGHT_1_BUTTONSROW_DEBUGGING / content.getRowCount());
+        } else {
+            rc = new RowConstraints(GuiConfig.CONTENT_HEIGHT_1_BUTTONROW / content.getRowCount());
+        }
+        for (int i = 0; i < content.getRowCount(); i++) {
+            content.getRowConstraints().add(rc);
+        }
         
-        button.setOnAction((ActionEvent) -> {
+        // Buttons
+        buttons[0] = new Button("Zurück");
+
+        buttons[0].setOnAction((ActionEvent) -> {
             if (activatedDishes != 0) {
-                //stage.getScene().setRoot(new MenuCardWindow(stage, game).get());
-                //window.change(new MenuCardWindow(window, game).getRoot());
+                MenuCardWindow w = new MenuCardWindow(game, window);
+                window.update(w.getContent(), w.getButtons());
             } else {
-                //stage.getScene().setRoot(new MenuCardWindow(stage, game).get());
-                //window.change(new MenuCardWindow(window, game).getRoot());
+                MenuCardWindow w = new MenuCardWindow(game, window);
+                window.update(w.getContent(), w.getButtons()); // TODO Leere Speisenkarte
             }
         });
 
-        VBox vbox = new VBox(gp, fp);
-        root = new Group(vbox);
-
+        // DEBUGGING
+        content.setGridLinesVisible(true);
+        content.setAlignment(Pos.CENTER);
     }
 
     public void blockBoxes() {
-
         for (int i = 0; i < cb.length; i++) {
             if (!cb[i].isSelected()) {
                 cb[i].setDisable(true);
             }
         }
-
     }
 
     public void unblockBoxes() {
-
         for (int i = 0; i < cb.length; i++) {
             cb[i].setDisable(false);
         }
-
     }
 
     public void setAvailable(Game game) {
-
         for (int i = 0; i < cb.length; i++) {
             if (cb[i].isSelected()) {
                 game.getPlayer(0).getMenuCard().getDish(i).setAvailable(true);
@@ -120,21 +117,14 @@ public class MenuCardEditWindow {
                 game.getPlayer(0).getMenuCard().getDish(i).setAvailable(false);
             }
         }
-
     }
     
-    public int setCheckBoxSize(int rows, double height) {
-
-        int size = (int) (height / rows);
-        for (int i = 0; i < cb.length; i++) {
-            cb[i].setMinSize(size, size);
-        }
-        
-        return size;
+    public Region getContent() {
+        return content;
     }
 
-    public Group getRoot() {
-        return root;
+    public Button[] getButtons() {
+        return buttons;
     }
-
+    
 }
