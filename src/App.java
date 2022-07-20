@@ -48,7 +48,7 @@ public class App extends Application {
             stage.getScene().setRoot(window.getRoot());
             scene.setOnKeyReleased((KeyEvent e) -> {
                 if (e.getCode() == KeyCode.A) {
-                    System.out.println(game.getPlayer(0).getMoney());
+                    System.out.println(game.getDay());
                 }
             });
         });

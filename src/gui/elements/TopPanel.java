@@ -16,14 +16,15 @@ import logic.Game;
  * @author André Heinen
  */
 public class TopPanel {
-        
-    private String string;
+    
     private Text text;
     private VBox vbox;
 
     public TopPanel(Game game) {
-        string = "Tag " + game.getDay();
-        text = new Text(string);
+        text = new Text("Tag " + game.getDay());
+        game.getDayProperty().addListener((observable) -> {
+            text.setText("Tag " + game.getDay());
+        });
         vbox = new VBox(text);
 
         // DEBUGGING
@@ -32,14 +33,6 @@ public class TopPanel {
         vbox.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
     }
     
-    public String getString() {
-        return string;
-    }
-
-    public Text getText() {
-        return text;
-    }
-
     public VBox getVBox() {
         return vbox;
     }

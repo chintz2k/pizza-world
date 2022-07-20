@@ -1,5 +1,8 @@
 package logic;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  *
  * @author André Heinen
@@ -15,7 +18,7 @@ public class Game {
     public static final double WIDTH = 360.0;
     public static final double HEIGHT = 640.0;
 
-    private int day = 1;
+    private IntegerProperty dayProperty;
 
     private final Newsfeed newsfeed;
 
@@ -23,6 +26,8 @@ public class Game {
     private final Player[] players;
 
     public Game() {
+
+        dayProperty = new SimpleIntegerProperty(1);
 
         newsfeed = new Newsfeed();
 
@@ -49,7 +54,18 @@ public class Game {
     }
 
     public int getDay() {
-        return day;
+        if (dayProperty != null) {
+            return dayProperty.get();
+        } else {
+            return -1;
+        }
+    }
+
+    public IntegerProperty getDayProperty() {
+        if (dayProperty == null) {
+            dayProperty = new SimpleIntegerProperty(1);
+        }
+        return dayProperty;
     }
 
     public Newsfeed getNewsfeed() {
@@ -66,15 +82,15 @@ public class Game {
                 if (guests[j].isLikeAvailable(players[i])) {
                     players[i].addMoney(players[i].getMenuCard().getDish(guests[j].getLike()).getPrice());
                     players[i].addPoints(players[i].getMenuCard().getDish(guests[j].getLike()).getPrice());
-                    players[i].getStatistics().addSoldUnits(guests[j].getLike(), day, 1);
-                    players[i].getStatistics().addSales(guests[j].getLike(), day, players[i].getMenuCard().getDish(guests[j].getLike()).getPrice());
+                    players[i].getStatistics().addSoldUnits(guests[j].getLike(), getDay(), 1);
+                    players[i].getStatistics().addSales(guests[j].getLike(), getDay(), players[i].getMenuCard().getDish(guests[j].getLike()).getPrice());
                 }
             }
         }
     }
 
     public void startNewDay() {
-        day += 1;
+        dayProperty.set(getDay() + 1);
         for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
             players[i].getStatistics().addColumn();
         }

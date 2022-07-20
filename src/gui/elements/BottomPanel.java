@@ -17,16 +17,14 @@ import logic.Game;
  */
 public class BottomPanel {
     
-    private String string;
     private Text text;
     private VBox vbox;
     
     public BottomPanel(Game game) {
-        string = game.getPlayer(0).getMoney() + " €";
-        text = new Text(string);
+        text = new Text(game.getPlayer(0).getMoney() + " €");
         vbox = new VBox(text);
         game.getPlayer(0).getMoneyProperty().addListener((observable) -> {
-            string = game.getPlayer(0).getMoney() + " €";
+            text.setText(game.getPlayer(0).getMoney() + " €");
         });
 
         // DEBUGGING
@@ -36,11 +34,10 @@ public class BottomPanel {
     }
 
     public BottomPanel(Game game, int player) {
-        string = game.getPlayer(player).getMoney() + " €";
-        text = new Text(string);
+        text = new Text(game.getPlayer(player).getMoney() + " €");
         vbox = new VBox(text);
         game.getPlayer(player).getMoneyProperty().addListener((observable) -> {
-            string = game.getPlayer(player).getMoney() + " €";
+            text.setText(game.getPlayer(player).getMoney() + " €");
         });
 
         // DEBUGGING
