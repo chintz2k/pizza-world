@@ -1,17 +1,15 @@
 package de.pizzaworld.gui;
 
+import de.pizzaworld.gui.elements.BottomPanel;
+import de.pizzaworld.gui.elements.TopPanel;
+import de.pizzaworld.logic.Game;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-
-import de.pizzaworld.logic.Game;
 
 /**
  *
@@ -21,10 +19,11 @@ public class StatisticsWindow {
 
     Group root;    
 
-    public StatisticsWindow(GameWindow window, Game game, int option) {
+    public StatisticsWindow(Game game, Scene scene, int option) {
 
         GridPane gp = new GridPane();
         gp.setMinSize(360.0, 520.0);
+        gp.setMaxSize(360.0, 520.0);
         if (option == 0) {
             gp.addRow(0, new Text("Verkaufte Pizzen"));
         } else if (option == 1) {
@@ -51,14 +50,12 @@ public class StatisticsWindow {
             gp.add(new Text(game.getPlayer(0).getStatistics().getSalesTotal(game.getDay() - 1) + " €"), 1, gp.getRowCount() - 1);
             gp.add(new Text(game.getPlayer(0).getStatistics().getSalesAllTimeTotal(game.getDay()) + " €"), 2, gp.getRowCount() - 1);
         }
-        
         for (int i = 1; i < gp.getChildren().size(); i += 3) {
             GridPane.setHalignment(gp.getChildren().get(i), HPos.RIGHT);
             GridPane.setHalignment(gp.getChildren().get(i + 1), HPos.RIGHT);
         }
-        
         ColumnConstraints cc0 = new ColumnConstraints(116.0);
-        ColumnConstraints cc1 = new ColumnConstraints(80.0);
+        ColumnConstraints cc1 = new ColumnConstraints(100.0);
         RowConstraints rc0 = new RowConstraints(25.5);
         RowConstraints rc1 = new RowConstraints(32.0);
         gp.getColumnConstraints().addAll(cc0, cc1, cc1);
@@ -66,7 +63,6 @@ public class StatisticsWindow {
             gp.getRowConstraints().addAll(rc0);
         }
         gp.getRowConstraints().add(gp.getRowCount() - 1, rc1);
-        
         gp.setAlignment(Pos.CENTER);
         
         Button[] buttons = new Button[2];
@@ -77,32 +73,33 @@ public class StatisticsWindow {
             buttons[0] = new Button("Verkäufe");
             buttons[1] = new Button("Zurück");
         }
-
         for (Button button : buttons) {
             button.setMinSize(180.0, 80.0);
+            button.setMaxSize(180.0, 80.0);
         }
 
-        FlowPane fp = new FlowPane(buttons);
-        fp.setMinSize(360.0, 80.0);
-        
+        root = new Group(
+                new VBox(
+                        new TopPanel(game).getTopPanel(),
+                        gp,
+                        new FlowPane(buttons),
+                        new BottomPanel(game).getBottomPanel()
+                )
+        );
+
         if (option == 0) {
             buttons[0].setOnAction((ActionEvent) -> {
-                //stage.getScene().setRoot(new StatisticsWindow(stage, game, 1).get());
-                //window.change(new StatisticsWindow(window, game, 1).getRoot());
+                scene.setRoot(new StatisticsWindow(game, scene, 1).getRoot());
             });
         } else if (option == 1) {
             buttons[0].setOnAction((ActionEvent) -> {
-                //stage.getScene().setRoot(new StatisticsWindow(stage, game, 0).get());
-                //window.change(new StatisticsWindow(window, game, 0).getRoot());
+                scene.setRoot(new StatisticsWindow(game, scene, 0).getRoot());
             });
         }
         buttons[1].setOnAction((ActionEvent) -> {
-            //stage.getScene().setRoot(new MainWindow(stage, game).get());
-            //window.change(new MainWindow(window, game).getRoot());
+            scene.setRoot(new MainWindow(game, scene).getRoot());
         });
 
-        root = new Group(new VBox(gp, fp));
-        
     }
     
     public Group getRoot() {

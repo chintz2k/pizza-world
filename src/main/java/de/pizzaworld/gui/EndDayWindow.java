@@ -1,12 +1,12 @@
 package de.pizzaworld.gui;
 
+import de.pizzaworld.logic.Game;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-
-import de.pizzaworld.logic.Game;
 
 /**
  *
@@ -16,7 +16,7 @@ public class EndDayWindow {
 
     Group root;
 
-    public EndDayWindow(GameWindow window, Game game) {
+    public EndDayWindow(Game game, Scene scene) {
         
         String dayStats = "";
         if (Game.DEBUGGING) {
@@ -37,25 +37,23 @@ public class EndDayWindow {
         
         TextArea news = new TextArea(dayStats);
         news.setEditable(false);
-        news.setMinSize(360.0, 520.0);
+        news.setMinSize(360.0, 560.0);
+        news.setMaxSize(360.0, 560.0);
 
         Button button = new Button("OK");
         button.setMinSize(360.0, 80.0);
-
-        FlowPane fp = new FlowPane(button);
-        fp.setMinSize(360.0, 80.0);
-
-        button.setOnAction((ActionEvent) -> {
-            //stage.getScene().setRoot(new PointsWindow(stage, game).get());
-            //window.change(new PointsWindow(window, game).getRoot());
-        });
+        button.setMaxSize(360.0, 80.0);
 
         GridPane gp = new GridPane();
         gp.addRow(0, news);
-        gp.addRow(1, fp);
+        gp.addRow(1, new FlowPane(button));
         gp.setGridLinesVisible(true);
 
         root = new Group(gp);
+
+        button.setOnAction((ActionEvent) -> {
+            scene.setRoot(new PointsWindow(game, scene).getRoot());
+        });
 
     }
 

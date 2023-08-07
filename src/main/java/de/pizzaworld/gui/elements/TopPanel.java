@@ -1,8 +1,9 @@
 package de.pizzaworld.gui.elements;
 
-import javafx.scene.text.Text;
-
 import de.pizzaworld.logic.Game;
+import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -10,16 +11,19 @@ import de.pizzaworld.logic.Game;
  */
 public class TopPanel {
     
-    Text text;
+    HBox hb;
 
     public TopPanel(Game game) {
 
-        text = new Text(String.valueOf("Tag " + game.getDay()));
+        hb = new HBox(new Text("Tag " + game.getDay()));
+        hb.setMinSize(360.0, 20.0);
+        hb.setMaxSize(360.0, 20.0);
+        hb.setAlignment(Pos.CENTER);
 
     }
     
-    public Text getText() {
-        return text;
+    public HBox getTopPanel() {
+        return hb;
     }
 
 }
